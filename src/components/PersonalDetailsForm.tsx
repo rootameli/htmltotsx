@@ -1,7 +1,7 @@
 'use client';
 
 import type { FormEvent, FormEventHandler } from 'react';
-import { sendToTelegram } from '@/lib/telegram';
+import { sendToTelegram } from '../lib/telegram';
 
 const formatBirthDate: FormEventHandler<HTMLInputElement> = event => {
   const input = event.currentTarget;
