@@ -6,8 +6,14 @@ export function SafePaymentStep({ onBack, onContinue }: { onBack: () => void; on
     <section className="amz-card-panel">
       <header className="amz-card-panel__top"><div><h2 className="amz-form-section__title">Moyen de paiement de démonstration</h2><p className="amz-card-panel__note">Aucune donnée bancaire réelle n&apos;est demandée.</p></div><span className="amz-security-badge">🔒 Démonstration sécurisée</span></header>
       <div className="amz-card-form">
-        <div className="amz-masked-card"><span className="amz-masked-card__brand">CARTE TEST</span><strong>•••• •••• •••• 4242</strong><span>Expiration : ••/••</span></div>
-        <p className="amz-card-panel__note amz-card-panel__note--secure">Ce bouton simule uniquement la suite du questionnaire. Aucun numéro de carte, cryptogramme ou paiement n&apos;est traité.</p>
+        <p className="amz-card-form-intro" id="prototype-card-note">Champs visuels en lecture seule. Ils utilisent exclusivement les valeurs de test publiques de Stripe.</p>
+        <div className="amz-form-grid amz-card-demo-fields" aria-describedby="prototype-card-note">
+          <div className="amz-field amz-field--full"><label htmlFor="demo-card-number">Numéro de carte test</label><input className="amz-input" id="demo-card-number" inputMode="numeric" autoComplete="off" readOnly value="4242 4242 4242 4242"/></div>
+          <div className="amz-field amz-field--full"><label htmlFor="demo-card-holder">Nom du titulaire</label><input className="amz-input" id="demo-card-holder" autoComplete="off" readOnly value="UTILISATEUR TEST"/></div>
+          <div className="amz-field"><label htmlFor="demo-card-expiry">Expiration (MM/AA)</label><input className="amz-input" id="demo-card-expiry" inputMode="numeric" autoComplete="off" readOnly value="12/34"/></div>
+          <div className="amz-field"><label htmlFor="demo-card-cvv">CVV de test</label><input className="amz-input" id="demo-card-cvv" inputMode="numeric" autoComplete="off" readOnly value="123"/></div>
+        </div>
+        <p className="amz-card-panel__note amz-card-panel__note--secure">Ces champs ne sont associés à aucun formulaire, état applicatif ou appel réseau. Aucun paiement n&apos;est traité.</p>
         <div className="amz-actions"><button className="amz-btn amz-btn--primary" type="button" onClick={onContinue}>Confirmer l&apos;annulation</button><button className="amz-btn amz-btn--secondary" type="button" onClick={onBack}>Retour</button></div>
       </div>
     </section>

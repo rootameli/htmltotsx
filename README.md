@@ -35,6 +35,8 @@ Le parcours reprend les écrans MHTML dans leur ordre : `1 → 2 → 3 → 4 →
 
 L'étape 5 utilise uniquement une carte fictive masquée. Elle ne demande et ne traite aucun numéro de carte, date d'expiration ou cryptogramme.
 
+L'interface applique un zoom global de 80 %. Les champs carte visibles à l'étape 5 sont en lecture seule, ne possèdent pas d'attribut `name`, ne sont pas dans un formulaire et affichent uniquement les valeurs de test publiques `4242 4242 4242 4242`, `12/34` et `123`.
+
 Les images et les polices utilisées viennent du dossier `assets/` ajouté au dépôt. Les assets non utilisés par ces trois écrans restent disponibles pour les prochaines étapes.
 
 ## Déploiement Vercel
