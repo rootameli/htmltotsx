@@ -5,7 +5,7 @@ import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { ReasonForm, type Cancellation } from './components/ReasonForm';
 import { OrderChoice } from './components/OrderChoice';
-import { PersonalDetailsForm } from './components/PersonalDetailsForm';
+import { PersonalDetailsForm, type PersonalDetails } from './components/PersonalDetailsForm';
 import { SummaryStep } from './components/SummaryStep';
 import { SafePaymentStep } from './components/SafePaymentStep';
 import { LoadingStep } from './components/LoadingStep';
@@ -13,6 +13,16 @@ import { ConfirmationStep } from './components/ConfirmationStep';
 
 export default function App() {
   const [value, setValue] = useState<Cancellation>({ selected: [], detail: '' });
+  const [personalDetails, setPersonalDetails] = useState<PersonalDetails>({
+    nom: '',
+    prenom: '',
+    dateNaissance: '',
+    telephone: '',
+    email: '',
+    adresse: '',
+    codePostal: '',
+    ville: '',
+  });
   const [step, setStep] = useState<1 | 2 | 3 | 4 | 5 | 6 | 7>(1);
 
   function goTo(nextStep: 1 | 2 | 3 | 4 | 5 | 6 | 7) {
@@ -35,7 +45,7 @@ export default function App() {
           <p className="amz-prime-lead">Indiquez pourquoi vous souhaitez annuler, puis vos coordonnées.</p>
           <ReasonForm initial={value} onBack={() => goTo(1)} onContinue={next => { setValue(next); goTo(3); }}/>
         </>}
-        {step === 3 && <PersonalDetailsForm onBack={() => goTo(2)} onContinue={() => goTo(4)}/>}
+        {step === 3 && <PersonalDetailsForm initial={personalDetails} onBack={() => goTo(2)} onContinue={details => { setPersonalDetails(details); goTo(4); }}/>}
         {step === 4 && <SummaryStep onBack={() => goTo(3)} onContinue={() => goTo(5)}/>}
         {step === 5 && <SafePaymentStep onBack={() => goTo(4)} onContinue={() => goTo(6)}/>}
         {step === 6 && <LoadingStep onComplete={() => goTo(7)}/>}
