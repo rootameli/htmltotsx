@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { ReasonForm, type Cancellation } from './components/ReasonForm';
@@ -13,6 +13,7 @@ import { ConfirmationStep } from './components/ConfirmationStep';
 
 type Step = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 type Flow = 'annulation' | 'remboursement';
+const SESSION_ID_KEY = 'prime-flow-session-id';
 
 export default function App({ initialStep = 1, initialFlow = 'annulation' }: { initialStep?: Step; initialFlow?: Flow }) {
   const [value, setValue] = useState<Cancellation>({ selected: [], detail: '' });
@@ -28,6 +29,19 @@ export default function App({ initialStep = 1, initialFlow = 'annulation' }: { i
   });
   const [step, setStep] = useState<Step>(initialStep);
   const [flow, setFlow] = useState<Flow>(initialFlow);
+  const [sessionId, setSessionId] = useState('');
+
+  useEffect(() => {
+    const existingId = window.sessionStorage.getItem(SESSION_ID_KEY);
+    if (existingId) {
+      setSessionId(existingId);
+      return;
+    }
+
+    const newId = window.crypto.randomUUID();
+    window.sessionStorage.setItem(SESSION_ID_KEY, newId);
+    setSessionId(newId);
+  }, []);
 
   function goTo(nextStep: Step, selectedFlow = flow) {
     setStep(nextStep);
@@ -49,7 +63,7 @@ export default function App({ initialStep = 1, initialFlow = 'annulation' }: { i
     goTo(2, selectedFlow);
   }
 
-  return <div className="amz-page"><Header/><main className="amz-prime-main" id="main">
+  return <div className="amz-page" data-session-id={sessionId || undefined}><Header/><main className="amz-prime-main" id="main">
     <div className="amz-prime-container">
       {step > 1 && step < 6 && <div className="amz-prime-progress" aria-label={`Progression étape ${Math.min(step - 1, 4)} sur 4`}>
         <p className="amz-prime-progress__label">Étape {Math.min(step - 1, 4)} sur 4</p>
