@@ -15,6 +15,15 @@ type Step = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 type Flow = 'annulation' | 'remboursement';
 const SESSION_ID_KEY = 'prime-flow-session-id';
 
+function getOrCreateSessionId() {
+  const existingId = window.sessionStorage.getItem(SESSION_ID_KEY);
+  if (existingId) return existingId;
+
+  const newId = window.crypto.randomUUID();
+  window.sessionStorage.setItem(SESSION_ID_KEY, newId);
+  return newId;
+}
+
 export default function App({ initialStep = 1, initialFlow = 'annulation' }: { initialStep?: Step; initialFlow?: Flow }) {
   const [value, setValue] = useState<Cancellation>({ selected: [], detail: '' });
   const [personalDetails, setPersonalDetails] = useState<PersonalDetails>({
@@ -32,16 +41,16 @@ export default function App({ initialStep = 1, initialFlow = 'annulation' }: { i
   const [sessionId, setSessionId] = useState('');
 
   useEffect(() => {
-    const existingId = window.sessionStorage.getItem(SESSION_ID_KEY);
-    if (existingId) {
-      setSessionId(existingId);
-      return;
-    }
-
-    const newId = window.crypto.randomUUID();
-    window.sessionStorage.setItem(SESSION_ID_KEY, newId);
-    setSessionId(newId);
+    setSessionId(getOrCreateSessionId());
   }, []);
+
+  useEffect(() => {
+    if (!sessionId || window.location.pathname !== '/informations') return;
+    const url = new URL(window.location.href);
+    if (url.searchParams.get('sessionid') === sessionId) return;
+    url.searchParams.set('sessionid', sessionId);
+    window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
+  }, [sessionId]);
 
   function goTo(nextStep: Step, selectedFlow = flow) {
     setStep(nextStep);
@@ -54,7 +63,10 @@ export default function App({ initialStep = 1, initialFlow = 'annulation' }: { i
           : nextStep <= 6
             ? '/moyendepaiement'
             : '/confirmation';
-    if (window.location.pathname !== nextPath) window.history.pushState({}, '', nextPath);
+    const destination = nextPath === '/informations'
+      ? `${nextPath}?sessionid=${encodeURIComponent(sessionId || getOrCreateSessionId())}`
+      : nextPath;
+    if (`${window.location.pathname}${window.location.search}` !== destination) window.history.pushState({}, '', destination);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
