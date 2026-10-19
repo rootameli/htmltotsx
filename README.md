@@ -27,3 +27,7 @@ npm start
 - `src/components/Footer.tsx` : pied de page.
 
 Le parcours comprend deux étapes locales. Les étapes de coordonnées et de paiement ne sont pas implémentées. Les choix restent en mémoire et disparaissent au rechargement. Aucun serveur applicatif, secret ou service externe n'est nécessaire.
+
+## Déploiement Vercel
+
+Le projet utilise le preset Next.js et produit son build dans `.next`. Le fichier `vercel.json` configure ces valeurs explicitement afin de remplacer un ancien réglage Vite pointant vers `dist`.
