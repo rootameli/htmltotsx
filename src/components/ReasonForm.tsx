@@ -9,9 +9,9 @@ export const reasons = [
 ] as const;
 export type ReasonId = typeof reasons[number]['id'];
 export type Cancellation = { selected: ReasonId[]; detail: string };
-type Props = { initial: Cancellation; onContinue: (value: Cancellation) => void };
+type Props = { initial: Cancellation; onBack: () => void; onContinue: (value: Cancellation) => void };
 
-export function ReasonForm({ initial, onContinue }: Props) {
+export function ReasonForm({ initial, onBack, onContinue }: Props) {
   const [selected, setSelected] = useState(initial.selected);
   const [detail, setDetail] = useState(initial.detail);
   const [error, setError] = useState('');
@@ -35,6 +35,6 @@ export function ReasonForm({ initial, onContinue }: Props) {
       <input id="detail" className="amz-input" value={detail} disabled={!hasOther} maxLength={500} onChange={e => setDetail(e.target.value)} placeholder="Décrivez brièvement votre situation"/></div>
     </fieldset>
     {error && <p className="amz-form-error" role="alert">{error}</p>}
-    <div className="amz-actions"><button className="amz-btn amz-btn--primary" type="submit">Continuer</button><button className="amz-btn amz-btn--secondary" type="button">Retour</button></div>
+    <div className="amz-actions"><button className="amz-btn amz-btn--primary" type="submit">Continuer</button><button className="amz-btn amz-btn--secondary" type="button" onClick={onBack}>Retour</button></div>
   </form>;
 }

@@ -1,9 +1,12 @@
+import Image from 'next/image';
+import amazonLogo from '../../assets/images/amazon-logo-white.png';
+
 export function Header() {
   return <>
     <a className="skip-link" href="#main">Passer au contenu principal</a>
     <header className="amazon-header">
       <div className="nav-belt">
-        <a className="amazon-logo" href="#main" aria-label="Amazon.fr"><span>amazon</span><small>.fr</small></a>
+        <a className="amazon-logo" href="#main" aria-label="Amazon.fr"><Image src={amazonLogo} alt="Amazon" priority/></a>
         <button className="delivery" type="button"><span aria-hidden="true">⌖</span><span><small>Votre adresse de livraison :</small><strong>France</strong></span></button>
         <form className="search" onSubmit={event => event.preventDefault()} role="search">
           <select aria-label="Catégorie"><option>Toutes nos catégories</option></select>

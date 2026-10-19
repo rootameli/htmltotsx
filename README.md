@@ -22,11 +22,14 @@ npm start
 - `app/globals.css` : reproduction responsive du design.
 - `src/App.tsx` : assemblage et état du parcours côté client.
 - `src/components/Header.tsx` : en-tête et navigation.
-- `src/components/ReasonForm.tsx` : cases à cocher, champ conditionnel et validation.
-- `src/components/Review.tsx` : récapitulatif et retour aux choix.
+- `src/components/OrderChoice.tsx` : commande confirmée et choix annulation/remboursement (`1.mhtml`).
+- `src/components/ReasonForm.tsx` : motifs, champ conditionnel et validation (`2.mhtml`).
+- `src/components/PersonalDetailsForm.tsx` : coordonnées et validation locale (`3.mhtml`).
 - `src/components/Footer.tsx` : pied de page.
 
-Le parcours comprend deux étapes locales. Les étapes de coordonnées et de paiement ne sont pas implémentées. Les choix restent en mémoire et disparaissent au rechargement. Aucun serveur applicatif, secret ou service externe n'est nécessaire.
+Le parcours reprend les trois écrans MHTML dans leur ordre. Les choix et les coordonnées restent uniquement en mémoire pendant l'affichage et disparaissent au rechargement. Le dernier formulaire est effacé dès sa validation. Aucun serveur applicatif, secret ou service externe n'est nécessaire.
+
+Les images et les polices utilisées viennent du dossier `assets/` ajouté au dépôt. Les assets non utilisés par ces trois écrans restent disponibles pour les prochaines étapes.
 
 ## Déploiement Vercel
 
