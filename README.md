@@ -48,3 +48,5 @@ Le récapitulatif reprend directement les pictogrammes SVG du fichier `4.mhtml` 
 ## Déploiement Vercel
 
 Le projet utilise le preset Next.js et produit son build dans `.next`. Le fichier `vercel.json` configure ces valeurs explicitement afin de remplacer un ancien réglage Vite pointant vers `dist`.
+
+La route `/panel` est protégée côté serveur par une page de connexion demandant uniquement un mot de passe. Définissez `PANEL_PASSWORD` dans les variables d'environnement Vercel. Tant que cette variable n'est pas configurée, le panneau répond avec le statut `503` et reste inaccessible. Le mot de passe n'est jamais enregistré dans le dépôt.
