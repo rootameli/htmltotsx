@@ -58,7 +58,6 @@ export function PersonalDetailsForm({ initial, onBack, onContinue }: { initial: 
     <h1 className="amz-prime-title">Confirmez vos informations personnelles</h1>
     <p className="amz-prime-lead">Ces informations sont nécessaires pour traiter votre demande Prime.</p>
     <p className="amz-prime-detail">Veuillez remplir tous les champs ci-dessous. Ils doivent correspondre aux données enregistrées sur votre compte Amazon.</p>
-    <p className="amz-local-notice">Démonstration locale : vos informations restent disponibles pendant le parcours et aucune donnée n&apos;est envoyée.</p>
     <form className="amz-coordonnees-form" onSubmit={submit}>
       <FormSection title="Identité" hint="Nom et prénom tels qu'indiqués sur votre compte Amazon.">
         <Field id="nom" label="Nom" defaultValue={initial.nom} autoComplete="family-name" minLength={2} maxLength={50} pattern="[\p{L}'’ .-]{2,50}" title="Utilisez uniquement des lettres, espaces, apostrophes ou tirets."/>

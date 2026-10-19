@@ -7,3 +7,37 @@ body{overflow-x:hidden}.amz-page{zoom:.8;min-height:125vh}
 .amz-card-brands{display:flex;align-items:center;gap:10px;margin:0 0 18px}.amz-card-brands--header{flex-shrink:0;margin:0;gap:8px}.amz-card-brands span{display:flex;align-items:center;justify-content:center;width:48px;height:32px}.amz-card-brands--header span{width:42px;height:27px}.amz-card-brands img{width:100%;height:100%;object-fit:contain}@media(max-width:480px){.amz-card-brands{flex-wrap:wrap}.amz-card-brands--header{flex-wrap:nowrap;width:100%;justify-content:flex-start}}
 
 .amz-reason-item input[type=radio]+label:before{border-radius:50%}
+
+@media(max-width:600px){
+  .amz-page{zoom:1;min-height:100vh}
+  .nav-belt{gap:4px}
+  .nav-main{overflow-x:auto;scrollbar-width:none}
+  .nav-main::-webkit-scrollbar{display:none}
+  .amz-prime-title{font-size:1.35rem}
+  .amz-prime-lead{margin-bottom:18px}
+  .amz-confirm-banner{padding:14px}
+  .amz-order-box{padding:15px}
+  .amz-order-box__head{align-items:flex-start}
+  .amz-order-box__product{min-width:0}
+  .amz-order-box__name{overflow-wrap:anywhere}
+  .amz-form-section{padding:16px 14px 6px}
+  .amz-reason-item label,.amz-choice-card{padding:14px}
+  .amz-amount-row{align-items:flex-start;flex-direction:column;gap:6px;padding:14px}
+  .amz-amount-row strong{font-size:1.1rem;white-space:normal}
+  .amz-info-list li{align-items:flex-start;padding:14px}
+  .amz-card-form{padding:16px 14px}
+  .amz-card-panel__top{padding:15px 14px}
+  .footer-legal{gap:12px;padding:22px 16px;text-align:center}
+}
+
+@media(max-width:420px){
+  .account{display:none}
+  .amazon-logo img{width:88px}
+  .cart strong{display:none}
+  .amz-prime-main{padding:12px 8px 28px}
+  .amz-prime-card{padding:18px 14px 22px;border-radius:10px}
+  .amz-order-box__product-img{width:58px;height:58px}
+  .footer-columns{grid-template-columns:1fr;gap:20px}
+  .footer-locale{flex-direction:column}
+  .footer-logo{margin:0 0 4px}
+}

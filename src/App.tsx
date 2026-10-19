@@ -31,7 +31,15 @@ export default function App({ initialStep = 1, initialFlow = 'annulation' }: { i
 
   function goTo(nextStep: Step, selectedFlow = flow) {
     setStep(nextStep);
-    const nextPath = nextStep === 1 ? '/' : nextStep === 7 ? '/confirmation' : `/${selectedFlow}`;
+    const nextPath = nextStep === 1
+      ? '/'
+      : nextStep === 2
+        ? `/${selectedFlow}`
+        : nextStep <= 4
+          ? '/informations'
+          : nextStep <= 6
+            ? '/moyendepaiement'
+            : '/confirmation';
     if (window.location.pathname !== nextPath) window.history.pushState({}, '', nextPath);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
