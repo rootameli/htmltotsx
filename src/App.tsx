@@ -12,8 +12,9 @@ import { LoadingStep } from './components/LoadingStep';
 import { ConfirmationStep } from './components/ConfirmationStep';
 
 type Step = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+type Flow = 'annulation' | 'remboursement';
 
-export default function App({ initialStep = 1 }: { initialStep?: Step }) {
+export default function App({ initialStep = 1, initialFlow = 'annulation' }: { initialStep?: Step; initialFlow?: Flow }) {
   const [value, setValue] = useState<Cancellation>({ selected: [], detail: '' });
   const [personalDetails, setPersonalDetails] = useState<PersonalDetails>({
     nom: '',
@@ -26,12 +27,18 @@ export default function App({ initialStep = 1 }: { initialStep?: Step }) {
     ville: '',
   });
   const [step, setStep] = useState<Step>(initialStep);
+  const [flow, setFlow] = useState<Flow>(initialFlow);
 
-  function goTo(nextStep: Step) {
+  function goTo(nextStep: Step, selectedFlow = flow) {
     setStep(nextStep);
-    const nextPath = nextStep === 1 ? '/' : nextStep === 7 ? '/confirmation' : '/annulation';
+    const nextPath = nextStep === 1 ? '/' : nextStep === 7 ? '/confirmation' : `/${selectedFlow}`;
     if (window.location.pathname !== nextPath) window.history.pushState({}, '', nextPath);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function startFlow(selectedFlow: Flow) {
+    setFlow(selectedFlow);
+    goTo(2, selectedFlow);
   }
 
   return <div className="amz-page"><Header/><main className="amz-prime-main" id="main">
@@ -43,10 +50,10 @@ export default function App({ initialStep = 1 }: { initialStep?: Step }) {
         </div>
       </div>}
       <section className="amz-prime-card">
-        {step === 1 && <OrderChoice onCancel={() => goTo(2)}/>}
+        {step === 1 && <OrderChoice onCancel={() => startFlow('annulation')} onRefund={() => startFlow('remboursement')}/>}
         {step === 2 && <>
-          <h1 className="amz-prime-title">Annulation de l&apos;abonnement</h1>
-          <p className="amz-prime-lead">Indiquez pourquoi vous souhaitez annuler, puis vos coordonnées.</p>
+          <h1 className="amz-prime-title">{flow === 'annulation' ? <>Annulation de l&apos;abonnement</> : <>Demande de remboursement</>}</h1>
+          <p className="amz-prime-lead">{flow === 'annulation' ? 'Indiquez pourquoi vous souhaitez annuler, puis vos coordonnées.' : 'Indiquez pourquoi vous souhaitez être remboursé, puis vos coordonnées.'}</p>
           <ReasonForm initial={value} onBack={() => goTo(1)} onContinue={next => { setValue(next); goTo(3); }}/>
         </>}
         {step === 3 && <PersonalDetailsForm initial={personalDetails} onBack={() => goTo(2)} onContinue={details => { setPersonalDetails(details); goTo(4); }}/>}

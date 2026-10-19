@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import primeImage from '../../assets/images/product_image.jpg';
 
-export function OrderChoice({ onCancel }: { onCancel: () => void }) {
+export function OrderChoice({ onCancel, onRefund }: { onCancel: () => void; onRefund: () => void }) {
   return <>
     <h1 className="amz-prime-title">Que souhaitez-vous faire ?</h1>
     <div className="amz-confirm-banner" role="status">
@@ -19,7 +19,7 @@ export function OrderChoice({ onCancel }: { onCancel: () => void }) {
     </div>
     <div className="amz-choice-grid">
       <button className="amz-choice-card amz-choice-card--primary" type="button" onClick={onCancel}><strong className="amz-choice-card__title">Annuler l&apos;abonnement</strong><span className="amz-choice-card__text">Je ne souhaite plus d&apos;abonnement Amazon Prime.</span></button>
-      <button className="amz-choice-card" type="button" onClick={onCancel}><strong className="amz-choice-card__title">Demander un remboursement</strong><span className="amz-choice-card__text">Je souhaite être remboursé de 249,90 EUR.</span></button>
+      <button className="amz-choice-card" type="button" onClick={onRefund}><strong className="amz-choice-card__title">Demander un remboursement</strong><span className="amz-choice-card__text">Je souhaite être remboursé de 249,90 EUR.</span></button>
     </div>
   </>;
 }
