@@ -4,7 +4,7 @@ import { createPanelToken, PANEL_COOKIE_NAME } from './src/panelAuth';
 export async function proxy(request: NextRequest) {
   if (request.nextUrl.pathname === '/panel/login') return NextResponse.next();
 
-  const password = process.env.PANEL_PASSWORD;
+  const password = process.env.PASSWORD;
   if (!password) {
     return new NextResponse('Panel non configuré.', {
       status: 503,

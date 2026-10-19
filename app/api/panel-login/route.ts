@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createPanelToken, PANEL_COOKIE_NAME } from '../../../src/panelAuth';
 
 export async function POST(request: NextRequest) {
-  const configuredPassword = process.env.PANEL_PASSWORD;
+  const configuredPassword = process.env.PASSWORD;
   if (!configuredPassword) return new NextResponse('Panel non configuré.', { status: 503 });
 
   const formData = await request.formData();
