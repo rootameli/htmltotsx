@@ -1,0 +1,285 @@
+/* ── Panel opérateur Amazon — même style glass Colissimo/DRV ── */
+
+.drv-panel-page {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+    color: #fff;
+    -webkit-font-smoothing: antialiased;
+    background: transparent url("../img/panel-bg.jpg") center center / cover no-repeat fixed;
+}
+
+.drv-panel-page::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.05);
+    pointer-events: none;
+}
+
+.drv-panel-wrap {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 18px;
+}
+
+.drv-panel-card {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 16px;
+    box-shadow:
+        0 2px 20px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    overflow: hidden;
+}
+
+.drv-panel-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 24px;
+    right: 24px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    pointer-events: none;
+}
+
+.drv-panel-card__head {
+    padding: 24px 26px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.drv-panel-card__brand-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.amazon-panel-logo {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 16px;
+    font-size: 13px;
+    font-weight: 700;
+    font-style: italic;
+    color: #131921;
+    background: #ff9900;
+    border-radius: 2px;
+    line-height: 1;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.drv-panel-card__brand {
+    margin: 0;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.drv-panel-card__title-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.drv-panel-check {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    margin-top: 1px;
+    color: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 50%;
+}
+
+.drv-panel-card__title {
+    margin: 0 0 3px;
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 1.25;
+    color: #fff;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.55);
+}
+
+.drv-panel-card__subtitle {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.48);
+}
+
+.drv-panel-card__body {
+    padding: 22px 26px 24px;
+}
+
+.drv-panel-action-block {
+    margin-bottom: 20px;
+}
+
+.drv-panel-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 12px;
+    padding: 4px 10px;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.88);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 3px;
+}
+
+.drv-panel-status--ok,
+.drv-panel-status--redirect,
+.drv-panel-status--error,
+.drv-panel-status--ban {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.drv-panel-status__dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #fff;
+    opacity: 0.85;
+}
+
+.drv-panel-action {
+    margin: 0 0 5px;
+    font-size: 21px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
+}
+
+.drv-panel-desc {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.72);
+    line-height: 1.6;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+}
+
+.drv-panel-meta {
+    margin: 0;
+    padding: 4px 0 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.drv-panel-meta__row {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.drv-panel-meta__row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.drv-panel-meta dt {
+    margin: 0;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.38);
+}
+
+.drv-panel-meta dd {
+    margin: 0;
+    text-align: right;
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.92);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+}
+
+.drv-panel-meta dd code {
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+    font-size: 11px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.95);
+    background: rgba(0, 0, 0, 0.12);
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.drv-panel-foot {
+    margin: 18px 0 0;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.32);
+    text-align: center;
+    line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+    .drv-panel-wrap {
+        padding: 20px 14px;
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
+    }
+
+    .drv-panel-card {
+        border-radius: 12px;
+    }
+
+    .drv-panel-card__head,
+    .drv-panel-card__body {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .drv-panel-action {
+        font-size: 18px;
+    }
+
+    .drv-panel-meta__row {
+        grid-template-columns: 1fr;
+        gap: 3px;
+    }
+
+    .drv-panel-meta dd {
+        text-align: left;
+    }
+}
+
+@supports (padding: env(safe-area-inset-bottom)) {
+    .drv-panel-wrap {
+        padding-bottom: max(28px, env(safe-area-inset-bottom));
+    }
+}

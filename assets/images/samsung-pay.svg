@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 210" role="img" aria-label="Samsung Pay">
+  <rect width="512" height="210" rx="24" fill="#1428A0"/>
+  <path fill="#fff" d="M96 58h44c18.8 0 32.2 11.2 32.2 28.4 0 12.4-6.8 21.6-18.2 25.8l22.4 38.8h-24.8l-19.8-35.2H120v35.2H96V58zm24 44.8h16.8c8.8 0 14-4.8 14-12.4s-5.2-12.4-14-12.4H120v24.8z"/>
+  <path fill="#fff" d="M206 58h44c22.4 0 38.4 16 38.4 38.4S272.4 135 250 135h-44V58zm24 74.4h16.8c10.4 0 17.6-7.2 17.6-18s-7.2-18-17.6-18H230v36z"/>
+  <path fill="#fff" d="M314 58h24v77h40v24H314V58z"/>
+  <path fill="#00B3E3" d="M392 58h24l32 56.8V58h24v101h-24l-32-56.8V159h-24V58z"/>
+</svg>
