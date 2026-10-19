@@ -1,21 +1,12 @@
-import { useState, type FormEvent } from 'react';
+import type { FormEvent } from 'react';
 
-export function PersonalDetailsForm({ onBack }: { onBack: () => void }) {
-  const [complete, setComplete] = useState(false);
-
+export function PersonalDetailsForm({ onBack, onContinue }: { onBack: () => void; onContinue: () => void }) {
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!event.currentTarget.reportValidity()) return;
     event.currentTarget.reset();
-    setComplete(true);
+    onContinue();
   }
-
-  if (complete) return <div className="amz-complete" role="status">
-    <span className="amz-complete__icon">✓</span>
-    <h1 className="amz-prime-title">Informations confirmées</h1>
-    <p className="amz-prime-lead">Le questionnaire de démonstration est terminé. Aucune information n&apos;a été transmise ou enregistrée.</p>
-    <button className="amz-btn amz-btn--secondary" type="button" onClick={() => setComplete(false)}>Modifier les informations</button>
-  </div>;
 
   return <>
     <h1 className="amz-prime-title">Confirmez vos informations personnelles</h1>

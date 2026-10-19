@@ -25,9 +25,15 @@ npm start
 - `src/components/OrderChoice.tsx` : commande confirmée et choix annulation/remboursement (`1.mhtml`).
 - `src/components/ReasonForm.tsx` : motifs, champ conditionnel et validation (`2.mhtml`).
 - `src/components/PersonalDetailsForm.tsx` : coordonnées et validation locale (`3.mhtml`).
+- `src/components/SummaryStep.tsx` : récapitulatif de la sélection (`4.mhtml`).
+- `src/components/SafePaymentStep.tsx` : confirmation sûre avec carte fictive masquée (`5.mhtml`).
+- `src/components/LoadingStep.tsx` : animation locale de traitement (`loading.mhtml`).
+- `src/components/ConfirmationStep.tsx` : résultat final de la simulation (`confirmation.mhtml`).
 - `src/components/Footer.tsx` : pied de page.
 
-Le parcours reprend les trois écrans MHTML dans leur ordre. Les choix et les coordonnées restent uniquement en mémoire pendant l'affichage et disparaissent au rechargement. Le dernier formulaire est effacé dès sa validation. Aucun serveur applicatif, secret ou service externe n'est nécessaire.
+Le parcours reprend les écrans MHTML dans leur ordre : `1 → 2 → 3 → 4 → 5 → loading → confirmation`. Les choix et les coordonnées restent uniquement en mémoire pendant l'affichage et disparaissent au rechargement. Le formulaire de coordonnées est effacé dès sa validation. Aucun serveur applicatif, secret ou service externe n'est nécessaire.
+
+L'étape 5 utilise uniquement une carte fictive masquée. Elle ne demande et ne traite aucun numéro de carte, date d'expiration ou cryptogramme.
 
 Les images et les polices utilisées viennent du dossier `assets/` ajouté au dépôt. Les assets non utilisés par ces trois écrans restent disponibles pour les prochaines étapes.
 
