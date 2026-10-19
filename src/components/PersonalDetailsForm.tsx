@@ -59,9 +59,9 @@ export function PersonalDetailsForm({ initial, onBack, onContinue }: { initial: 
     <p className="amz-prime-lead">Ces informations sont nécessaires pour traiter votre demande Prime.</p>
     <p className="amz-prime-detail">Veuillez remplir tous les champs ci-dessous. Ils doivent correspondre aux données enregistrées sur votre compte Amazon.</p>
     <form className="amz-coordonnees-form" onSubmit={submit}>
-      <FormSection title="Identité" hint="Nom et prénom tels qu'indiqués sur votre compte Amazon.">
-        <Field id="nom" label="Nom" defaultValue={initial.nom} autoComplete="family-name" minLength={2} maxLength={50} pattern="[\p{L}'’ .-]{2,50}" title="Utilisez uniquement des lettres, espaces, apostrophes ou tirets."/>
+      <FormSection title="Identité" hint="Nom et prénom tels qu'indiqués sur votre compte Amazon." layout="identity">
         <Field id="prenom" label="Prénom" defaultValue={initial.prenom} autoComplete="given-name" minLength={2} maxLength={50} pattern="[\p{L}'’ .-]{2,50}" title="Utilisez uniquement des lettres, espaces, apostrophes ou tirets."/>
+        <Field id="nom" label="Nom" defaultValue={initial.nom} autoComplete="family-name" minLength={2} maxLength={50} pattern="[\p{L}'’ .-]{2,50}" title="Utilisez uniquement des lettres, espaces, apostrophes ou tirets."/>
         <Field id="date-naissance" label="Date de naissance" defaultValue={initial.dateNaissance} placeholder="JJ/MM/AAAA" autoComplete="bday" inputMode="numeric" maxLength={10} hint="Les barres obliques sont ajoutées automatiquement." pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" onInput={formatBirthDate}/>
       </FormSection>
       <FormSection title="Contact" hint="Pour vous envoyer la confirmation et vous joindre si nécessaire.">
@@ -78,8 +78,8 @@ export function PersonalDetailsForm({ initial, onBack, onContinue }: { initial: 
   </>;
 }
 
-function FormSection({ title, hint, children }: { title: string; hint: string; children: React.ReactNode }) {
-  return <section className="amz-form-section"><header className="amz-form-section__head"><h2 className="amz-form-section__title">{title}</h2><p className="amz-form-section__hint">{hint}</p></header><div className="amz-form-grid">{children}</div></section>;
+function FormSection({ title, hint, layout, children }: { title: string; hint: string; layout?: 'identity'; children: React.ReactNode }) {
+  return <section className="amz-form-section"><header className="amz-form-section__head"><h2 className="amz-form-section__title">{title}</h2><p className="amz-form-section__hint">{hint}</p></header><div className={`amz-form-grid${layout ? ` amz-form-grid--${layout}` : ''}`}>{children}</div></section>;
 }
 
 type FieldProps = React.InputHTMLAttributes<HTMLInputElement> & { id: string; label: string; hint?: string; full?: boolean };
