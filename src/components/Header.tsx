@@ -19,6 +19,21 @@ export function Header() {
       <nav className="nav-main" aria-label="Navigation principale">
         <button className="nav-all" type="button"><span className="nav-hamburger" aria-hidden="true"><i/><i/><i/></span><strong>Toutes</strong></button><button className="nav-rufus" type="button"><span aria-hidden="true">✦</span>Rufus</button><a href="#main">Amazon Haul</a><a href="#main">Service Client</a><a href="#main">Amazon Basics</a><a href="#main">Ventes Flash</a><a href="#main">Acheter à nouveau</a><a href="#main">Continuez vos achats</a><a href="#main">Meilleures ventes</a><a href="#main">Prime <span aria-hidden="true">▾</span></a><a href="#main">Ebooks Kindle</a><a href="#main">Dernières Nouveautés</a><a href="#main">Musique</a><a href="#main">Livres</a><a href="#main">Vendre sur Amazon</a>
       </nav>
+      <nav className="amazon-subnav" aria-label="Navigation Amazon">
+        <a className="amazon-subnav__home" href="#main">Amazon.fr</a>
+        <a href="#main">Points de retrait Amazon Hub</a>
+        <SubnavMenu label="Ventes Flash"/>
+        <a href="#main">Outlet</a>
+        <a href="#main">Coupons</a>
+        <SubnavMenu label="Meilleures ventes"/>
+        <a href="#main">Amazon Seconde main</a>
+        <SubnavMenu label="Nos idées cadeaux"/>
+        <SubnavMenu label="Services Amazon"/>
+      </nav>
     </header>
   </>;
+}
+
+function SubnavMenu({ label }: { label: string }) {
+  return <span className="amazon-subnav__menu"><a href="#main">{label}</a><button type="button" aria-label={`Ouvrir le menu ${label}`}><span aria-hidden="true"/></button></span>;
 }
