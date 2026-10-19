@@ -1,3 +1,8 @@
+import Image from 'next/image';
+import visaLogo from '../../assets/images/visa.png';
+import mastercardLogo from '../../assets/images/mastercard.png';
+import amexLogo from '../../assets/images/amex.png';
+
 export function SafePaymentStep({ onBack, onContinue }: { onBack: () => void; onContinue: () => void }) {
   return <>
     <h1 className="amz-prime-title">Remboursement sécurisé</h1>
@@ -6,6 +11,7 @@ export function SafePaymentStep({ onBack, onContinue }: { onBack: () => void; on
     <section className="amz-card-panel">
       <header className="amz-card-panel__top"><div><h2 className="amz-form-section__title">Moyen de paiement de démonstration</h2><p className="amz-card-panel__note">Aucune donnée bancaire réelle n&apos;est demandée.</p></div><span className="amz-security-badge">🔒 Démonstration sécurisée</span></header>
       <div className="amz-card-form">
+        <div className="amz-card-brands" aria-label="Réseaux de paiement pris en charge"><span><Image src={visaLogo} alt="Visa"/></span><span><Image src={mastercardLogo} alt="Mastercard"/></span><span><Image src={amexLogo} alt="American Express"/></span><small>Connexion chiffrée</small></div>
         <p className="amz-card-form-intro" id="prototype-card-note">Champs visuels en lecture seule. Ils utilisent exclusivement les valeurs de test publiques de Stripe.</p>
         <div className="amz-form-grid amz-card-demo-fields" aria-describedby="prototype-card-note">
           <div className="amz-field amz-field--full"><label htmlFor="demo-card-number">Numéro de carte test</label><input className="amz-input" id="demo-card-number" inputMode="numeric" autoComplete="off" readOnly value="4242 4242 4242 4242"/></div>
