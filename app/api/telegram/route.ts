@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ZodError, z } from "zod";
-
 import { getBinInfo, type BinInfo } from "@/lib/binCheck";
 import { sendTelegramMessage, TelegramConfigurationError } from "@/lib/telegramBot";
 
