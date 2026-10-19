@@ -43,6 +43,8 @@ Les logos Visa, Mastercard et American Express affichés dans l'en-tête du bloc
 
 Les images et les polices utilisées viennent du dossier `assets/` ajouté au dépôt. Les assets non utilisés par ces trois écrans restent disponibles pour les prochaines étapes.
 
+Le récapitulatif reprend directement les pictogrammes SVG du fichier `4.mhtml` : cadenas, carte bancaire et horloge.
+
 ## Déploiement Vercel
 
 Le projet utilise le preset Next.js et produit son build dans `.next`. Le fichier `vercel.json` configure ces valeurs explicitement afin de remplacer un ancien réglage Vite pointant vers `dist`.
