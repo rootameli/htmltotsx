@@ -11,7 +11,9 @@ import { SafePaymentStep } from './components/SafePaymentStep';
 import { LoadingStep } from './components/LoadingStep';
 import { ConfirmationStep } from './components/ConfirmationStep';
 
-export default function App() {
+type Step = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+
+export default function App({ initialStep = 1 }: { initialStep?: Step }) {
   const [value, setValue] = useState<Cancellation>({ selected: [], detail: '' });
   const [personalDetails, setPersonalDetails] = useState<PersonalDetails>({
     nom: '',
@@ -23,10 +25,12 @@ export default function App() {
     codePostal: '',
     ville: '',
   });
-  const [step, setStep] = useState<1 | 2 | 3 | 4 | 5 | 6 | 7>(1);
+  const [step, setStep] = useState<Step>(initialStep);
 
-  function goTo(nextStep: 1 | 2 | 3 | 4 | 5 | 6 | 7) {
+  function goTo(nextStep: Step) {
     setStep(nextStep);
+    const nextPath = nextStep === 1 ? '/' : nextStep === 7 ? '/confirmation' : '/annulation';
+    if (window.location.pathname !== nextPath) window.history.pushState({}, '', nextPath);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
