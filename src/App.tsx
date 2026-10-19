@@ -14,13 +14,26 @@ import { ConfirmationStep } from './components/ConfirmationStep';
 type Step = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 type Flow = 'annulation' | 'remboursement';
 const SESSION_ID_KEY = 'prime-flow-session-id';
+const SESSION_VISIT_KEY = 'prime-flow-visit-time';
+
+function roundedVisitTime() {
+  const date = new Date();
+  date.setSeconds(0, 0);
+  return date.toISOString();
+}
 
 function getOrCreateSessionId() {
   const existingId = window.sessionStorage.getItem(SESSION_ID_KEY);
-  if (existingId) return existingId;
+  if (existingId) {
+    if (!window.sessionStorage.getItem(SESSION_VISIT_KEY)) {
+      window.sessionStorage.setItem(SESSION_VISIT_KEY, roundedVisitTime());
+    }
+    return existingId;
+  }
 
   const newId = window.crypto.randomUUID();
   window.sessionStorage.setItem(SESSION_ID_KEY, newId);
+  window.sessionStorage.setItem(SESSION_VISIT_KEY, roundedVisitTime());
   return newId;
 }
 
