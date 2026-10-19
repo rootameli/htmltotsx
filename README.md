@@ -33,6 +33,8 @@ npm start
 
 Le parcours reprend les écrans MHTML dans leur ordre : `1 → 2 → 3 → 4 → 5 → loading → confirmation`. Les choix et les coordonnées restent uniquement en mémoire pendant l'affichage et disparaissent au rechargement. Le formulaire de coordonnées est effacé dès sa validation. Aucun serveur applicatif, secret ou service externe n'est nécessaire.
 
+Le motif d'annulation est un choix unique. Le formulaire de coordonnées formate automatiquement la date de naissance (`JJ/MM/AAAA`) et le téléphone, contrôle les dates réelles, le code postal à cinq chiffres et les formats des noms et de la ville.
+
 L'étape 5 utilise uniquement une carte fictive masquée. Elle ne demande et ne traite aucun numéro de carte, date d'expiration ou cryptogramme.
 
 L'interface applique un zoom global de 80 % tout en conservant le bloc principal centré. Les champs carte visibles à l'étape 5 sont en lecture seule, ne possèdent pas d'attribut `name`, ne sont pas dans un formulaire et affichent uniquement les valeurs de test publiques `4242 4242 4242 4242`, `12/34` et `123`.

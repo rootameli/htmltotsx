@@ -24,10 +24,10 @@ export function ReasonForm({ initial, onBack, onContinue }: Props) {
   }
   return <form onSubmit={submit}>
     <fieldset><legend className="amz-prime-section-title">Pourquoi souhaitez-vous annuler votre abonnement ?</legend>
-      <p className="amz-prime-section-hint">Sélectionnez un ou plusieurs motifs, puis poursuivez.</p>
+      <p className="amz-prime-section-hint">Sélectionnez un motif, puis poursuivez.</p>
       <ul className="amz-reason-list">{reasons.map(reason => <li className="amz-reason-item" key={reason.id}>
-        <input id={`motif-${reason.id}`} type="checkbox" checked={selected.includes(reason.id)} onChange={event => {
-          setSelected(current => event.target.checked ? [...current, reason.id] : current.filter(id => id !== reason.id));
+        <input id={`motif-${reason.id}`} name="motif" type="radio" checked={selected.includes(reason.id)} onChange={() => {
+          setSelected([reason.id]);
           setError('');
         }}/><label htmlFor={`motif-${reason.id}`}>{reason.label}</label>
       </li>)}</ul>

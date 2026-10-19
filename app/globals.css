@@ -5,3 +5,5 @@
 body{overflow-x:hidden}.amz-page{zoom:.8;min-height:125vh}
 
 .amz-card-brands{display:flex;align-items:center;gap:10px;margin:0 0 18px}.amz-card-brands--header{flex-shrink:0;margin:0;gap:8px}.amz-card-brands span{display:flex;align-items:center;justify-content:center;width:48px;height:32px}.amz-card-brands--header span{width:42px;height:27px}.amz-card-brands img{width:100%;height:100%;object-fit:contain}@media(max-width:480px){.amz-card-brands{flex-wrap:wrap}.amz-card-brands--header{flex-wrap:nowrap;width:100%;justify-content:flex-start}}
+
+.amz-reason-item input[type=radio]+label:before{border-radius:50%}

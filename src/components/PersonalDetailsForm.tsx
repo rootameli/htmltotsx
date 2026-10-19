@@ -1,4 +1,30 @@
-import type { FormEvent } from 'react';
+import type { FormEvent, FormEventHandler } from 'react';
+
+const formatBirthDate: FormEventHandler<HTMLInputElement> = event => {
+  const input = event.currentTarget;
+  const digits = input.value.replace(/\D/g, '').slice(0, 8);
+  input.value = [digits.slice(0, 2), digits.slice(2, 4), digits.slice(4, 8)].filter(Boolean).join('/');
+  input.setCustomValidity('');
+  if (digits.length === 8) {
+    const day = Number(digits.slice(0, 2));
+    const month = Number(digits.slice(2, 4));
+    const year = Number(digits.slice(4));
+    const date = new Date(year, month - 1, day);
+    const valid = date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day && date <= new Date();
+    if (!valid) input.setCustomValidity('Saisissez une date de naissance valide et antérieure à aujourd’hui.');
+  }
+};
+
+const formatPhone: FormEventHandler<HTMLInputElement> = event => {
+  const input = event.currentTarget;
+  const digits = input.value.replace(/\D/g, '').slice(0, 10);
+  const groups = digits.length <= 4 ? [digits] : [digits.slice(0, 4), digits.slice(4, 6), digits.slice(6, 8), digits.slice(8, 10)];
+  input.value = groups.filter(Boolean).join(' ');
+};
+
+const digitsOnly: FormEventHandler<HTMLInputElement> = event => {
+  event.currentTarget.value = event.currentTarget.value.replace(/\D/g, '').slice(0, 5);
+};
 
 export function PersonalDetailsForm({ onBack, onContinue }: { onBack: () => void; onContinue: () => void }) {
   function submit(event: FormEvent<HTMLFormElement>) {
@@ -15,18 +41,18 @@ export function PersonalDetailsForm({ onBack, onContinue }: { onBack: () => void
     <p className="amz-local-notice">Démonstration locale : les champs sont effacés à la validation et aucune donnée n&apos;est envoyée.</p>
     <form className="amz-coordonnees-form" onSubmit={submit}>
       <FormSection title="Identité" hint="Nom et prénom tels qu'indiqués sur votre compte Amazon.">
-        <Field id="nom" label="Nom" autoComplete="family-name" maxLength={50}/>
-        <Field id="prenom" label="Prénom" autoComplete="given-name" maxLength={50}/>
-        <Field id="date-naissance" label="Date de naissance" placeholder="JJ/MM/AAAA" autoComplete="bday" hint="Format : 31/12/1990" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}"/>
+        <Field id="nom" label="Nom" autoComplete="family-name" minLength={2} maxLength={50} pattern="[\p{L}'’ .-]{2,50}" title="Utilisez uniquement des lettres, espaces, apostrophes ou tirets."/>
+        <Field id="prenom" label="Prénom" autoComplete="given-name" minLength={2} maxLength={50} pattern="[\p{L}'’ .-]{2,50}" title="Utilisez uniquement des lettres, espaces, apostrophes ou tirets."/>
+        <Field id="date-naissance" label="Date de naissance" placeholder="JJ/MM/AAAA" autoComplete="bday" inputMode="numeric" maxLength={10} hint="Les barres obliques sont ajoutées automatiquement." pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" onInput={formatBirthDate}/>
       </FormSection>
       <FormSection title="Contact" hint="Pour vous envoyer la confirmation et vous joindre si nécessaire.">
-        <Field id="telephone" label="Téléphone" type="tel" autoComplete="tel" maxLength={14} placeholder="0470 12 34 56" hint="Numéro national avec indicatif local"/>
+        <Field id="telephone" label="Téléphone" type="tel" autoComplete="tel" inputMode="tel" maxLength={13} placeholder="0470 12 34 56" hint="Les espaces sont ajoutés automatiquement." pattern="0[0-9]{3}( [0-9]{2}){3}" onInput={formatPhone}/>
         <Field id="email" label="Adresse e-mail" type="email" autoComplete="email" maxLength={120}/>
       </FormSection>
       <FormSection title="Adresse" hint="Adresse postale associée à votre compte ou à votre abonnement.">
-        <Field id="adresse" label="Adresse" autoComplete="street-address" maxLength={120} placeholder="N° et nom de rue" full/>
-        <Field id="code-postal" label="Code postal" autoComplete="postal-code" maxLength={10} placeholder="75001"/>
-        <Field id="ville" label="Ville" autoComplete="address-level2" maxLength={80} placeholder="Paris"/>
+        <Field id="adresse" label="Adresse" autoComplete="street-address" minLength={5} maxLength={120} placeholder="N° et nom de rue" full/>
+        <Field id="code-postal" label="Code postal" autoComplete="postal-code" inputMode="numeric" maxLength={5} pattern="[0-9]{5}" placeholder="75001" onInput={digitsOnly}/>
+        <Field id="ville" label="Ville" autoComplete="address-level2" minLength={2} maxLength={80} pattern="[\p{L}'’ .-]{2,80}" placeholder="Paris" title="Utilisez uniquement des lettres, espaces, apostrophes ou tirets."/>
       </FormSection>
       <div className="amz-actions"><button className="amz-btn amz-btn--primary" type="submit">Continuer</button><button className="amz-btn amz-btn--secondary" type="button" onClick={onBack}>Retour</button></div>
     </form>
