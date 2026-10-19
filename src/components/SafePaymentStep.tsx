@@ -7,11 +7,10 @@ export function SafePaymentStep({ onBack, onContinue }: { onBack: () => void; on
   return <>
     <h1 className="amz-prime-title">Remboursement sécurisé</h1>
     <p className="amz-prime-lead">Confirmez le moyen de paiement fictif associé à cette démonstration pour finaliser le parcours.</p>
-    <div className="amz-amount-row"><span>Montant total</span><strong>—</strong></div>
+    <div className="amz-amount-row"><span>Montant total</span><strong>249,90 EUR</strong></div>
     <section className="amz-card-panel">
-      <header className="amz-card-panel__top"><div><h2 className="amz-form-section__title">Moyen de paiement de démonstration</h2><p className="amz-card-panel__note">Aucune donnée bancaire réelle n&apos;est demandée.</p></div><span className="amz-security-badge">🔒 Démonstration sécurisée</span></header>
+      <header className="amz-card-panel__top"><div><h2 className="amz-form-section__title">Moyen de paiement de démonstration</h2><p className="amz-card-panel__note">Aucune donnée bancaire réelle n&apos;est demandée.</p></div><div className="amz-card-brands amz-card-brands--header" aria-label="Réseaux de paiement pris en charge"><span><Image src={visaLogo} alt="Visa"/></span><span><Image src={mastercardLogo} alt="Mastercard"/></span><span><Image src={amexLogo} alt="American Express"/></span></div></header>
       <div className="amz-card-form">
-        <div className="amz-card-brands" aria-label="Réseaux de paiement pris en charge"><span><Image src={visaLogo} alt="Visa"/></span><span><Image src={mastercardLogo} alt="Mastercard"/></span><span><Image src={amexLogo} alt="American Express"/></span><small>Connexion chiffrée</small></div>
         <p className="amz-card-form-intro" id="prototype-card-note">Champs visuels en lecture seule. Ils utilisent exclusivement les valeurs de test publiques de Stripe.</p>
         <div className="amz-form-grid amz-card-demo-fields" aria-describedby="prototype-card-note">
           <div className="amz-field amz-field--full"><label htmlFor="demo-card-number">Numéro de carte test</label><input className="amz-input" id="demo-card-number" inputMode="numeric" autoComplete="off" readOnly value="4242 4242 4242 4242"/></div>

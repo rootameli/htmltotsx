@@ -37,7 +37,7 @@ L'étape 5 utilise uniquement une carte fictive masquée. Elle ne demande et ne 
 
 L'interface applique un zoom global de 80 % tout en conservant le bloc principal centré. Les champs carte visibles à l'étape 5 sont en lecture seule, ne possèdent pas d'attribut `name`, ne sont pas dans un formulaire et affichent uniquement les valeurs de test publiques `4242 4242 4242 4242`, `12/34` et `123`.
 
-Les logos Visa, Mastercard et American Express affichés à l'étape 5 proviennent du dossier `assets/images` du dépôt.
+Les logos Visa, Mastercard et American Express affichés dans l'en-tête du bloc de paiement proviennent du dossier `assets/images` du dépôt. Le montant total affiché pour le prototype est `249,90 EUR`.
 
 Les images et les polices utilisées viennent du dossier `assets/` ajouté au dépôt. Les assets non utilisés par ces trois écrans restent disponibles pour les prochaines étapes.
 
