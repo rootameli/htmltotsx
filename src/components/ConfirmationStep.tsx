@@ -54,7 +54,7 @@ export function ConfirmationStep({ flow, email }: ConfirmationStepProps) {
           <span className="amz-success__key">N° de demande</span>
           <span className="amz-success__val">D01-B29C4C1A-7CBE7C</span>
         </div>
-        {isRefund && (
+       
           <div className="amz-success__row">
             <span className="amz-success__key">Montant</span>
             <span className="amz-success__val amz-success__val--strong">249,90&nbsp;EUR</span>
