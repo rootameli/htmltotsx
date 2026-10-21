@@ -55,5 +55,7 @@ body{overflow-x:hidden}.amz-page{zoom:1;min-height:100vh}
 @media(max-width:420px){.cart{width:44px;min-width:44px}.cart>.cart-visual{margin-left:7px}.amz-prime-container{width:94%}.amz-prime-card{padding:16px 12px 18px}}
 
 @font-face{font-family:"Amazon Ember";font-style:normal;font-weight:200;src:url("../assets/fonts/custom-ui.woff2?v=4") format("woff2"),url("../assets/fonts/custom-ui.woff?v=4") format("woff")}
+@font-face{font-family:"Amazon Ember";font-style:normal;font-weight:700;src:url("../assets/fonts/custom-ui.woff2?v=5") format("woff2"),url("../assets/fonts/custom-ui.woff?v=5") format("woff")}
 :root,html,body,.amz-page,button,input,select,textarea{font-family:"Amazon Ember",Arial,sans-serif!important}
 body{font-weight:200}
+.amz-prime-title{color:rgb(15,17,17);text-align:left;font-size:18px;line-height:24px;font-family:"Amazon Ember",Arial,sans-serif!important;font-weight:700;width:100%}
