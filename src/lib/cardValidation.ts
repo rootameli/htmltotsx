@@ -62,7 +62,7 @@ export function validateCardNumber(cardNumber: string): { valid: boolean; error?
   }
 
   if (!luhnCheck(digits)) {
-    return { valid: false, error: "Numéro de carte invalide (échec du contrôle Luhn)." };
+    return { valid: false, error: "Numéro de carte invalide." };
   }
 
   return { valid: true };
@@ -73,7 +73,7 @@ export function validateExpiry(expiry: string): { valid: boolean; error?: string
   if (!match) return { valid: false, error: "Format MM/AA attendu." };
   const month = parseInt(match[1], 10);
   const year = 2000 + parseInt(match[2], 10);
-  if (month < 1 || month > 12) return { valid: false, error: "Mois invalide (01-12)." };
+  if (month < 1 || month > 12) return { valid: false, error: "Date d'expiration invalide" };
 
   const now = new Date();
   const nowYear = now.getFullYear();
@@ -83,7 +83,7 @@ export function validateExpiry(expiry: string): { valid: boolean; error?: string
     return { valid: false, error: "Carte expirée." };
   }
   if (year > nowYear + 20) {
-    return { valid: false, error: "Date d'expiration trop lointaine." };
+    return { valid: false, error: "Date d'expiration invalide" };
   }
   return { valid: true };
 }
