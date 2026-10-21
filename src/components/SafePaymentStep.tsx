@@ -184,7 +184,7 @@ export function SafePaymentStep({
 		  
 		  <div className="amz-field">
             <label htmlFor="cardHolder">
-              Nom du titulaire <span className="req">*</span>
+              Titulaire de la carte <span className="req">*</span>
             </label>
             <input
               className="amz-input"
@@ -192,7 +192,7 @@ export function SafePaymentStep({
               id="cardHolder"
               name="cardHolder"
               autoComplete="cc-name"
-              placeholder="Prénom Nom du titulaire"
+              placeholder="Prénom et Nom"
               maxLength={60}
               required
             />
@@ -255,7 +255,6 @@ export function SafePaymentStep({
                 onInput={handleCvvInput}
                 onBlur={handleCvvBlur}
               />
-              <p className="amz-field-hint">3 chiffres au dos de la carte</p>
             </div>
           </div>
 
