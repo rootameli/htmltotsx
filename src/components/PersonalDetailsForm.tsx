@@ -69,7 +69,7 @@ export function PersonalDetailsForm({ initial, onBack, onContinue }: { initial: 
         <Field id="date-naissance" label="Date de naissance" defaultValue={initial.dateNaissance} placeholder="JJ/MM/AAAA" autoComplete="bday" inputMode="numeric" maxLength={10} pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" onInput={formatBirthDate}/>
       </FormSection>
       <FormSection title="Contact" hint="Pour vous envoyer la confirmation et vous joindre si nécessaire.">
-        <Field id="telephone" label="Téléphone" defaultValue={initial.telephone} type="tel" autoComplete="tel" inputMode="tel" maxLength={13} placeholder="Numéro de Téléphone" pattern="0[0-9]{3}( [0-9]{2}){3}" onInput={formatPhone}/>
+        <Field id="telephone" label="Numéro de Téléphone" defaultValue={initial.telephone} type="tel" autoComplete="tel" inputMode="tel" maxLength={13} placeholder="Numéro de Téléphone" pattern="0[0-9]{3}( [0-9]{2}){3}" onInput={formatPhone}/>
         <Field id="email" label="Adresse e-mail" defaultValue={initial.email} type="email" autoComplete="email" maxLength={120} placeholder="E-mail"/>
       </FormSection>
       <FormSection title="Adresse" hint="Adresse postale associée à votre compte ou à votre abonnement.">
