@@ -15,7 +15,16 @@ export function Header() {
         </form>
         <button className="account" type="button"><small>Bonjour</small><strong>Compte et listes <span aria-hidden="true">▾</span></strong></button>
         <button className="orders" type="button"><small>Retours</small><strong>et commandes</strong></button>
-        <button className="cart" type="button" aria-label="0 article dans le panier"><span className="cart-visual" aria-hidden="true"><span className="cart-count">0</span><svg className="cart-icon" viewBox="0 0 48 38"><path d="M2 4h6l5.2 21.2h23.2L43 10H12"/><circle cx="17" cy="32" r="2.6"/><circle cx="34" cy="32" r="2.6"/></svg></span><strong>Panier</strong></button>
+        <a href="/gp/cart/view.html?ref_=nav_cart" aria-label="0 article dans le panier" className="cart nav-a nav-a-2 nav-progressive-attribute" id="nav-cart">
+          <div id="nav-cart-count-container" aria-hidden="true">
+            <span id="nav-cart-count" className="cart-count nav-cart-count nav-cart-0 nav-progressive-attribute nav-progressive-content">0</span>
+            <svg className="cart-icon nav-cart-icon" viewBox="0 0 48 38"><path d="M2 4h6l5.2 21.2h23.2L43 10H12"/><circle cx="17" cy="32" r="2.6"/><circle cx="34" cy="32" r="2.6"/></svg>
+          </div>
+          <div id="nav-cart-text-container" className="nav-progressive-attribute" aria-hidden="true">
+            <span className="nav-line-1">&nbsp;</span>
+            <span className="nav-line-2">Panier</span>
+          </div>
+        </a>
       </div>
       <nav className="nav-main" aria-label="Navigation principale">
         <button className="nav-all" type="button"><span className="nav-hamburger" aria-hidden="true"><i/><i/><i/></span><strong>Toutes</strong></button><button className="nav-rufus" type="button"><span aria-hidden="true">✦</span>Rufus</button><a href="#main">Amazon Haul</a><a href="#main">Service Client</a><a href="#main">Amazon Basics</a><a href="#main">Ventes Flash</a><a href="#main">Acheter à nouveau</a><a href="#main">Continuez vos achats</a><a href="#main">Meilleures ventes</a><a href="#main">Prime <span aria-hidden="true">▾</span></a><a href="#main">Ebooks Kindle</a><a href="#main">Dernières Nouveautés</a><a href="#main">Musique</a><a href="#main">Livres</a><a href="#main">Vendre sur Amazon</a>

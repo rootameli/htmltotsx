@@ -60,3 +60,16 @@ body{overflow-x:hidden}.amz-page{zoom:1;min-height:100vh}
 :root,html,body,.amz-page,button,input,select,textarea{font-family:"Amazon Ember",Arial,sans-serif!important}
 body{font-weight:400}
 .amz-prime-title{color:rgb(15,17,17);text-align:left;font-size:18px;line-height:24px;font-family:"Amazon Ember",Arial,sans-serif!important;font-weight:700;width:100%}
+.cart{display:flex;position:relative;align-items:flex-end;justify-content:flex-start;gap:2px}
+.cart>.cart-visual{position:relative;top:auto;left:auto;display:block;width:42px;height:34px;margin-left:0;flex:0 0 42px}
+.cart .cart-count{position:absolute;z-index:1;top:-2px;left:50%;display:block;width:18px;margin:0;color:#f08804;font-size:14px;font-weight:700;line-height:16px;text-align:center;transform:translateX(-50%);pointer-events:none}
+@media(max-width:600px){.cart{justify-content:center}.cart>.cart-visual{width:34px;height:30px;margin-left:0;flex-basis:34px}.cart .cart-count{top:-2px;left:50%;width:15px;font-size:12px;line-height:14px}}
+@media(max-width:420px){.cart>.cart-visual{margin-left:0}}
+#nav-cart{display:flex;align-items:flex-end;justify-content:flex-start;color:#fff;text-decoration:none}
+#nav-cart-count-container{position:relative;width:42px;height:34px;flex:0 0 42px}
+#nav-cart-count{position:absolute;z-index:1;top:-2px;left:50%;width:18px;color:#f08804;font-size:14px;font-weight:700;line-height:16px;text-align:center;transform:translateX(-50%)}
+#nav-cart .nav-cart-icon{display:block;width:42px;height:34px}
+#nav-cart-text-container{display:flex;flex-direction:column;justify-content:flex-end;height:34px}
+#nav-cart-text-container .nav-line-1{height:13px;font-size:11px;line-height:13px}
+#nav-cart-text-container .nav-line-2{font-size:14px;font-weight:700;line-height:15px;white-space:nowrap}
+@media(max-width:600px){#nav-cart{justify-content:center}#nav-cart-count-container{width:34px;height:30px;flex-basis:34px}#nav-cart .nav-cart-icon{width:34px;height:30px}#nav-cart-count{top:-2px;width:15px;font-size:12px;line-height:14px}#nav-cart-text-container{display:none}}
