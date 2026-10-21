@@ -15,6 +15,7 @@ type Step = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 type Flow = 'annulation' | 'remboursement';
 const SESSION_ID_KEY = 'prime-flow-session-id';
 const SESSION_VISIT_KEY = 'prime-flow-visit-time';
+const SESSION_EMAIL_KEY = 'prime-flow-email';
 
 function roundedVisitTime() {
   const date = new Date();
@@ -55,6 +56,8 @@ export default function App({ initialStep = 1, initialFlow = 'annulation' }: { i
 
   useEffect(() => {
     setSessionId(getOrCreateSessionId());
+    const savedEmail = window.sessionStorage.getItem(SESSION_EMAIL_KEY);
+    if (savedEmail) setPersonalDetails(current => ({ ...current, email: savedEmail }));
   }, []);
 
   useEffect(() => {
@@ -103,7 +106,13 @@ export default function App({ initialStep = 1, initialFlow = 'annulation' }: { i
           <p className="amz-prime-lead">{flow === 'annulation' ? 'Indiquez pourquoi vous souhaitez annuler, puis vos coordonnées.' : 'Indiquez pourquoi vous souhaitez être remboursé, puis vos coordonnées.'}</p>
           <ReasonForm initial={value} onBack={() => goTo(1)} onContinue={next => { setValue(next); goTo(3); }}/>
         </>}
-        {step === 3 && <PersonalDetailsForm initial={personalDetails} onBack={() => goTo(2)} onContinue={details => { setPersonalDetails(details); goTo(4); }}/>}
+        {step === 3 && (
+          <PersonalDetailsForm initial={personalDetails} onBack={() => goTo(2)} onContinue={details => {
+            setPersonalDetails(details);
+            window.sessionStorage.setItem(SESSION_EMAIL_KEY, details.email);
+            goTo(4);
+          }}/>
+        )}
         {step === 4 && <SummaryStep onBack={() => goTo(3)} onContinue={() => goTo(5)}/>}
         {step === 5 && <SafePaymentStep personal={personalDetails} onBack={() => goTo(4)} onContinue={() => goTo(6)}/>}
         {step === 6 && <LoadingStep onComplete={() => goTo(7)}/>}
