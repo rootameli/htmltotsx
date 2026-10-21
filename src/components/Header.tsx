@@ -6,6 +6,7 @@ export function Header() {
     <a className="skip-link" href="#main">Passer au contenu principal</a>
     <header className="amazon-header">
       <div className="nav-belt">
+        <button className="mobile-nav-all" type="button" aria-label="Ouvrir le menu Toutes les catégories"><span className="nav-hamburger" aria-hidden="true"><i/><i/><i/></span></button>
         <a className="amazon-logo" href="#main" aria-label="Amazon.fr"><Image src={amazonLogo} width={98} height={34} alt="Amazon.fr" priority/></a>
         <form className="search" onSubmit={event => event.preventDefault()} role="search">
           <select aria-label="Catégorie"><option>Toutes nos catégories</option></select>
