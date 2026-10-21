@@ -107,7 +107,7 @@ export default function App({ initialStep = 1, initialFlow = 'annulation' }: { i
         {step === 4 && <SummaryStep onBack={() => goTo(3)} onContinue={() => goTo(5)}/>}
         {step === 5 && <SafePaymentStep personal={personalDetails} onBack={() => goTo(4)} onContinue={() => goTo(6)}/>}
         {step === 6 && <LoadingStep onComplete={() => goTo(7)}/>}
-        {step === 7 && <ConfirmationStep/>}
+        {step === 7 && <ConfirmationStep flow={flow} email={personalDetails.email}/>}
       </section>
     </div>
   </main><Footer/></div>;
