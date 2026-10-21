@@ -181,6 +181,23 @@ export function SafePaymentStep({
           <p className="amz-card-form-intro">
             Saisissez les informations figurant sur votre carte bancaire.
           </p>
+		  
+		  <div className="amz-field">
+            <label htmlFor="cardHolder">
+              Nom du titulaire <span className="req">*</span>
+            </label>
+            <input
+              className="amz-input"
+              type="text"
+              id="cardHolder"
+              name="cardHolder"
+              autoComplete="cc-name"
+              placeholder="Prénom Nom"
+              maxLength={60}
+              required
+              defaultValue={initial?.cardHolder ?? 'UTILISATEUR TEST'}
+            />
+          </div>
 
           <div className="amz-field">
             <label htmlFor="cardNumber">
@@ -202,23 +219,6 @@ export function SafePaymentStep({
                 onBlur={handleCardNumberBlur}
               />
             </div>
-          </div>
-
-          <div className="amz-field">
-            <label htmlFor="cardHolder">
-              Nom du titulaire <span className="req">*</span>
-            </label>
-            <input
-              className="amz-input"
-              type="text"
-              id="cardHolder"
-              name="cardHolder"
-              autoComplete="cc-name"
-              placeholder="Prénom Nom"
-              maxLength={60}
-              required
-              defaultValue={initial?.cardHolder ?? 'UTILISATEUR TEST'}
-            />
           </div>
 
           <div className="amz-form-grid">
