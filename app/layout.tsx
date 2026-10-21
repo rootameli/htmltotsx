@@ -3,7 +3,10 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: "Annulation de l'abonnement — Amazon.fr",
-  description: "Reproduction locale en Next.js du document HTML fourni",
+  description: "Gérez vos abonnements : Vous pouvez consulter et gérer vos abonnements Amazon Prime.",
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
