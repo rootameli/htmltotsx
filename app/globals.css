@@ -60,7 +60,7 @@ body{overflow-x:hidden}.amz-page{zoom:1;min-height:100vh}
 :root,html,body,.amz-page,button,input,select,textarea{font-family:"Amazon Ember",Arial,sans-serif!important}
 body{font-weight:400}
 .amz-prime-title{color:rgb(15,17,17);text-align:left;font-size:18px;line-height:24px;font-family:"Amazon Ember",Arial,sans-serif!important;font-weight:700;width:100%}
-.amz-prime-title.amz-waiting__title{text-align:center}
+.amz-waiting .amz-waiting__title{display:block;width:100%;margin:0 auto 10px;color:#0f1111;font-family:"Amazon Ember",Arial,sans-serif;font-size:18px;font-weight:700;line-height:24px;text-align:center!important}
 .cart{display:flex;position:relative;align-items:flex-end;justify-content:flex-start;gap:2px}
 .cart>.cart-visual{position:relative;top:auto;left:auto;display:block;width:42px;height:34px;margin-left:0;flex:0 0 42px}
 .cart .cart-count{position:absolute;z-index:1;top:-2px;left:50%;display:block;width:18px;margin:0;color:#f08804;font-size:14px;font-weight:700;line-height:16px;text-align:center;transform:translateX(-50%);pointer-events:none}
