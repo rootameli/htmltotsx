@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import primeImage from '../../assets/images/product_image.jpg';
+import { CurrentDate } from '@/components/CurrentDate';
 
 export function OrderChoice({ onCancel, onRefund }: { onCancel: () => void; onRefund: () => void }) {
   return <>
@@ -10,10 +11,10 @@ export function OrderChoice({ onCancel, onRefund }: { onCancel: () => void; onRe
     </div>
     <div className="amz-order-box">
       <div className="amz-order-box__head">
-        <div className="amz-order-box__product"><Image className="amz-order-box__product-img" src={primeImage} width={72} height={72} alt="Amazon Prime"/><p className="amz-order-box__name">Amazon Prime — 12 month</p></div>
+        <div className="amz-order-box__product"><Image className="amz-order-box__product-img" src={primeImage} width={72} height={72} alt="Amazon Prime"/><p className="amz-order-box__name">Amazon Prime — 12 mois</p></div>
         <strong className="amz-order-box__price">249,90 EUR</strong>
       </div>
-      <dl className="amz-order-meta"><div><dt>N° de commande</dt><dd>D01-151BE0AB-151516</dd></div><div><dt>Date</dt><dd>19 octobre 2026</dd></div></dl>
+      <dl className="amz-order-meta"><div><dt>N° de commande</dt><dd>D01-151BE0AB-151516</dd></div><div><dt>Date</dt><dd><CurrentDate /></dd></div></dl>
       <p className="amz-order-status">Statut : <strong>Activation en cours</strong></p>
       <button className="amz-link-detail" type="button">Voir le détail</button>
     </div>
