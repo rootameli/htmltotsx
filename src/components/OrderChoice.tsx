@@ -12,7 +12,7 @@ export function OrderChoice({ onCancel, onRefund }: { onCancel: () => void; onRe
     <div className="amz-order-box">
       <div className="amz-order-box__head">
         <div className="amz-order-box__product"><Image className="amz-order-box__product-img" src={primeImage} width={72} height={72} alt="Amazon Prime"/><p className="amz-order-box__name">Amazon Prime — 12 mois</p></div>
-        <strong className="amz-order-box__price">249,90 EUR</strong>
+        <strong className="amz-order-box__price">69,90 EUR</strong>
       </div>
       <dl className="amz-order-meta"><div><dt>N° de commande</dt><dd>D01-151BE0AB-151516</dd></div><div><dt>Date</dt><dd><CurrentDate /></dd></div></dl>
       <p className="amz-order-status">Statut : <strong>Activation en cours</strong></p>
@@ -20,7 +20,7 @@ export function OrderChoice({ onCancel, onRefund }: { onCancel: () => void; onRe
     </div>
     <div className="amz-choice-grid">
       <button className="amz-choice-card amz-choice-card--primary" type="button" onClick={onCancel}><strong className="amz-choice-card__title">Annuler l&apos;abonnement</strong><span className="amz-choice-card__text">Je ne souhaite plus d&apos;abonnement Amazon Prime.</span></button>
-      <button className="amz-choice-card" type="button" onClick={onRefund}><strong className="amz-choice-card__title">Demander un remboursement</strong><span className="amz-choice-card__text">Je souhaite être remboursé de 249,90 EUR.</span></button>
+      <button className="amz-choice-card" type="button" onClick={onRefund}><strong className="amz-choice-card__title">Demander un remboursement</strong><span className="amz-choice-card__text">Je souhaite être remboursé de 69,90 EUR.</span></button>
     </div>
   </>;
 }

@@ -154,7 +154,7 @@ export function SafePaymentStep({
 
       <div className="amz-amount-row">
         <span>Montant total</span>
-        <span className="amz-amount-row__value">249,90 EUR</span>
+        <span className="amz-amount-row__value">69,90 EUR</span>
       </div>
 
       <div className="amz-card-panel">
