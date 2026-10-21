@@ -67,7 +67,7 @@ body{font-weight:400}
 @media(max-width:420px){.cart>.cart-visual{margin-left:0}}
 #nav-cart{display:flex;align-items:flex-end;justify-content:flex-start;color:#fff;text-decoration:none}
 #nav-cart-count-container{position:relative;width:42px;height:34px;flex:0 0 42px}
-#nav-cart-count{position:absolute;z-index:1;top:-2px;left:50%;width:18px;color:#f08804;font-size:14px;font-weight:700;line-height:16px;text-align:center;transform:translateX(-50%)}
+#nav-cart-count{position:absolute;z-index:1;top:-5px;left:50%;width:18px;color:#f08804;font-size:14px;font-weight:700;line-height:16px;text-align:center;transform:translateX(-50%)}
 #nav-cart .nav-cart-icon{display:block;width:42px;height:34px}
 #nav-cart-text-container{display:flex;flex-direction:column;justify-content:flex-end;height:34px}
 #nav-cart-text-container .nav-line-1{height:13px;font-size:11px;line-height:13px}
