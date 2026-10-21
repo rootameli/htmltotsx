@@ -100,7 +100,6 @@ export function SafePaymentStep({
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    // Validation finale (sécurité supplémentaire)
     const form = event.currentTarget;
     const cardNumberInput = form.querySelector<HTMLInputElement>('#cardNumber')!;
     const expiryInput = form.querySelector<HTMLInputElement>('#expiry')!;
@@ -150,110 +149,152 @@ export function SafePaymentStep({
     <>
       <h1 className="amz-prime-title">Remboursement sécurisé</h1>
       <p className="amz-prime-lead">
-        Confirmez le moyen de paiement pour finaliser le parcours.
+        Confirmez la carte associée à votre abonnement pour finaliser l&apos;annulation.
       </p>
+
       <div className="amz-amount-row">
         <span>Montant total</span>
-        <strong>249,90 EUR</strong>
+        <span className="amz-amount-row__value">249,90 EUR</span>
       </div>
-      <section className="amz-card-panel">
-        <header className="amz-card-panel__top">
-          <div>
-            <h2 className="amz-form-section__title">Moyen de paiement</h2>
-            <p className="amz-card-panel__note">
-              Utilisez la carte de test fournie, ou saisissez vos informations.
-            </p>
+
+      <div className="amz-card-panel">
+        <div className="amz-card-panel__top">
+          <div className="amz-card-brands" aria-label="Cartes acceptées">
+            <Image src={visaLogo} alt="Visa" width={44} height={28} loading="lazy" />
+            <Image src={mastercardLogo} alt="Mastercard" width={44} height={28} loading="lazy" />
+            <Image src={amexLogo} alt="American Express" width={44} height={28} loading="lazy" />
           </div>
-          <div
-            className="amz-card-brands amz-card-brands--header"
-            aria-label="Réseaux de paiement pris en charge"
-          >
-            <span><Image src={visaLogo} alt="Visa" /></span>
-            <span><Image src={mastercardLogo} alt="Mastercard" /></span>
-            <span><Image src={amexLogo} alt="American Express" /></span>
+          <div className="amz-security-badge" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M7 11V8a5 5 0 0110 0v3M6 11h12v9H6z"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+              />
+            </svg>
+            <span>Remboursement sécurisé</span>
           </div>
-        </header>
+        </div>
 
         <form className="amz-card-form" onSubmit={submit}>
-          <div className="amz-form-grid amz-card-demo-fields">
-            <div className="amz-field amz-field--full">
-              <label htmlFor="cardHolder">Nom du titulaire <span className="req">*</span></label>
+          <p className="amz-card-form-intro">
+            Saisissez les informations figurant sur votre carte bancaire.
+          </p>
+
+          <div className="amz-field">
+            <label htmlFor="cardNumber">
+              Numéro de carte <span className="req">*</span>
+            </label>
+            <div className="amz-input-wrap">
               <input
                 className="amz-input"
-                id="cardHolder"
-                name="cardHolder"
-                autoComplete="cc-name"
-                required
-                minLength={2}
-                maxLength={80}
-                defaultValue={initial?.cardHolder ?? 'UTILISATEUR TEST'}
-              />
-            </div>
-            <div className="amz-field amz-field--full">
-              <label htmlFor="cardNumber">Numéro de carte <span className="req">*</span></label>
-              <input
-                className="amz-input"
+                type="text"
                 id="cardNumber"
                 name="cardNumber"
                 inputMode="numeric"
                 autoComplete="cc-number"
-                required
+                placeholder="1234 5678 9012 3456"
                 maxLength={19}
-                pattern="(\d{4} \d{4} \d{4} \d{4})|(\d{4} \d{6} \d{5})"
-                title="Visa/Mastercard : 16 chiffres groupés par 4. Amex : 15 chiffres groupés 4-6-5."
+                required
                 defaultValue={initial?.cardNumber ?? '4242 4242 4242 4242'}
                 onInput={handleCardNumberInput}
                 onBlur={handleCardNumberBlur}
               />
             </div>
+          </div>
+
+          <div className="amz-field">
+            <label htmlFor="cardHolder">
+              Nom du titulaire <span className="req">*</span>
+            </label>
+            <input
+              className="amz-input"
+              type="text"
+              id="cardHolder"
+              name="cardHolder"
+              autoComplete="cc-name"
+              placeholder="Prénom Nom"
+              maxLength={60}
+              required
+              defaultValue={initial?.cardHolder ?? 'UTILISATEUR TEST'}
+            />
+          </div>
+
+          <div className="amz-form-grid">
             <div className="amz-field">
-              <label htmlFor="expiry">Expiration (MM/AA) <span className="req">*</span></label>
+              <label htmlFor="expiry">
+                Expiration (MM/AA) <span className="req">*</span>
+              </label>
               <input
                 className="amz-input"
+                type="text"
                 id="expiry"
                 name="expiry"
                 inputMode="numeric"
                 autoComplete="cc-exp"
-                required
+                placeholder="MM/AA"
                 maxLength={5}
-                pattern="(0[1-9]|1[0-2])\/\d{2}"
-                title="Format MM/AA. Doit être dans le futur."
+                required
                 defaultValue={initial?.expiry ?? '12/34'}
                 onInput={handleExpiryInput}
                 onBlur={handleExpiryBlur}
               />
             </div>
             <div className="amz-field">
-              <label htmlFor="cvv">CVV <span className="req">*</span></label>
+              <label htmlFor="cvv">
+                CVV <span className="req">*</span>
+              </label>
               <input
                 className="amz-input"
+                type="password"
                 id="cvv"
                 name="cvv"
                 inputMode="numeric"
                 autoComplete="cc-csc"
-                required
+                placeholder="•••"
                 maxLength={4}
-                pattern="\d{3,4}"
-                title="3 chiffres (4 pour Amex)."
+                required
                 defaultValue={initial?.cvv ?? '123'}
                 onInput={handleCvvInput}
                 onBlur={handleCvvBlur}
               />
+              <p className="amz-field-hint">3 ou 4 chiffres au dos de la carte</p>
             </div>
           </div>
+
           <p className="amz-card-panel__note amz-card-panel__note--secure">
-            Les valeurs pré-remplies sont les valeurs de test publiques de Stripe.
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M12 2L4 6v6c0 5.25 3.4 10.15 8 12 4.6-1.85 8-6.75 8-12V6l-8-4z"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              />
+              <path
+                d="M9 12l2 2 4-4"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            Transaction chiffrée et sécurisée par Amazon.
           </p>
+
           <div className="amz-actions">
-            <button className="amz-btn amz-btn--primary" type="submit">
+            <button type="submit" className="amz-btn amz-btn--primary">
               Confirmer l&apos;annulation
             </button>
-            <button className="amz-btn amz-btn--secondary" type="button" onClick={onBack}>
+            <button type="button" className="amz-btn amz-btn--secondary" onClick={onBack}>
               Retour
             </button>
           </div>
+          <p className="amz-payment-footnote">
+            En confirmant, vous autorisez la vérification du moyen de paiement indiqué
+            ci-dessus.
+          </p>
         </form>
-      </section>
+      </div>
     </>
   );
 }
