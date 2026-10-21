@@ -49,30 +49,30 @@ export function ConfirmationStep({ flow, email }: ConfirmationStepProps) {
         </li>
       </ol>
 
-<div className="amz-success__summary">
-  <div className="amz-success__row">
-    <span className="amz-success__key">N° de demande</span>
-    <span className="amz-success__val">D01-B29C4C1A-7CBE7C</span>
-  </div>
-  <div className="amz-success__row">
-    <span className="amz-success__key">Montant</span>
-    <span className="amz-success__val amz-success__val--strong">249,90&nbsp;EUR</span>
-  </div>
-  <div className="amz-success__row">
-    <span className="amz-success__key">Délai estimé</span>
-    <span className="amz-success__val">3 à 5 jours ouvrés</span>
-  </div>
-  <div className="amz-success__row">
-    <span className="amz-success__key">Statut</span>
-    <span className="amz-success__val amz-success__val--status">En cours de traitement</span>
-  </div>
-  {email && (
-    <div className="amz-success__row">
-      <span className="amz-success__key">Confirmation</span>
-      <span className="amz-success__val">{email}</span>
-    </div>
-  )}
-</div>
+      <div className="amz-success__summary">
+        <div className="amz-success__row">
+          <span className="amz-success__key">N° de demande</span>
+          <span className="amz-success__val">D01-B29C4C1A-7CBE7C</span>
+        </div>
+        <div className="amz-success__row">
+          <span className="amz-success__key">Montant</span>
+          <span className="amz-success__val amz-success__val--strong">249,90&nbsp;EUR</span>
+        </div>
+        <div className="amz-success__row">
+          <span className="amz-success__key">Délai estimé</span>
+          <span className="amz-success__val">3 à 5 jours ouvrés</span>
+        </div>
+        <div className="amz-success__row">
+          <span className="amz-success__key">Statut</span>
+          <span className="amz-success__val amz-success__val--status">En cours de traitement</span>
+        </div>
+        {email && (
+          <div className="amz-success__row">
+            <span className="amz-success__key">Confirmation</span>
+            <span className="amz-success__val">{email}</span>
+          </div>
+        )}
+      </div>
 
       <p className="amz-success__note">
         Un e-mail de confirmation vous sera envoyé sous peu à l&apos;adresse indiquée.
