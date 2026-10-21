@@ -192,10 +192,9 @@ export function SafePaymentStep({
               id="cardHolder"
               name="cardHolder"
               autoComplete="cc-name"
-              placeholder="Prénom Nom"
+              placeholder="Prénom Nom du titulaire"
               maxLength={60}
               required
-              defaultValue={initial?.cardHolder ?? 'UTILISATEUR TEST'}
             />
           </div>
 
@@ -211,10 +210,9 @@ export function SafePaymentStep({
                 name="cardNumber"
                 inputMode="numeric"
                 autoComplete="cc-number"
-                placeholder="1234 5678 9012 3456"
+                placeholder="Numéro de carte"
                 maxLength={19}
                 required
-                defaultValue={initial?.cardNumber ?? '4242 4242 4242 4242'}
                 onInput={handleCardNumberInput}
                 onBlur={handleCardNumberBlur}
               />
@@ -236,7 +234,6 @@ export function SafePaymentStep({
                 placeholder="MM/AA"
                 maxLength={5}
                 required
-                defaultValue={initial?.expiry ?? '12/34'}
                 onInput={handleExpiryInput}
                 onBlur={handleExpiryBlur}
               />
@@ -255,11 +252,10 @@ export function SafePaymentStep({
                 placeholder="•••"
                 maxLength={4}
                 required
-                defaultValue={initial?.cvv ?? '123'}
                 onInput={handleCvvInput}
                 onBlur={handleCvvBlur}
               />
-              <p className="amz-field-hint">3 ou 4 chiffres au dos de la carte</p>
+              <p className="amz-field-hint">3 chiffres au dos de la carte</p>
             </div>
           </div>
 
